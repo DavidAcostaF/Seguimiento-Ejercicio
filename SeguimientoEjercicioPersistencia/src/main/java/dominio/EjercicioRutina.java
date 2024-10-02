@@ -26,7 +26,9 @@ public class EjercicioRutina implements Serializable{  // Cambiado de Ejercicio 
 
     @Column(name = "completado")
     private boolean completado;
-
+    @ManyToOne
+    @JoinColumn(name = "dia_rutina_id", nullable = false)
+    private DiaRutina diaRutina;
     public EjercicioRutina() {
     }
 
@@ -43,6 +45,14 @@ public class EjercicioRutina implements Serializable{  // Cambiado de Ejercicio 
 
     public void setEjercicio(Ejercicio ejercicio) {
         this.ejercicio = ejercicio;
+    }
+
+    public DiaRutina getDiaRutina() {
+        return diaRutina;
+    }
+
+    public void setDiaRutina(DiaRutina diaRutina) {
+        this.diaRutina = diaRutina;
     }
 
     public boolean isCompletado() {

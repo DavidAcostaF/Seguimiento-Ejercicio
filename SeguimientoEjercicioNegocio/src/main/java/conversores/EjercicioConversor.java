@@ -36,8 +36,7 @@ public class EjercicioConversor implements IConversor<Ejercicio, EjercicioDTO> {
         if (dto == null) {
             return null; // Manejo de caso nulo
         }
-
-
+        System.out.println(dto.usuario()+"vamos viendo");
         return new Ejercicio(
             dto.id(),
             dto.nombre(),

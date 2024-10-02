@@ -27,7 +27,7 @@ public class PlanEntrenamiento implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // Relación uno a muchos con Dia
     @JoinColumn(name = "plan_entrenamiento_id") // Clave foránea en la tabla dias
-    private final List<Dia> diasSemana;
+    private final List<DiaRutina> diasSemana;
 
     @Column(name = "fecha_inicio") // Nombre de la columna en la tabla
     private final LocalDate fechaInicio;
@@ -48,7 +48,7 @@ public class PlanEntrenamiento implements Serializable {
      * @param fechaInicio
      * @param fechaFin
      */
-    public PlanEntrenamiento(List<Dia> diasSemana, LocalDate fechaInicio, LocalDate fechaFin) {
+    public PlanEntrenamiento(List<DiaRutina> diasSemana, LocalDate fechaInicio, LocalDate fechaFin) {
         if (diasSemana.size() != 7) {
             throw new IllegalArgumentException("Un plan semanal debe contener exactamente 7 días.");
         }
@@ -68,7 +68,7 @@ public class PlanEntrenamiento implements Serializable {
         return id;
     }
 
-    public List<Dia> getDiasSemana() {
+    public List<DiaRutina> getDiasSemana() {
         return diasSemana;
     }
 

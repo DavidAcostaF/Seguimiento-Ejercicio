@@ -30,6 +30,7 @@ public class EjercicioBO implements IEjercicioBO {
 
     @Override
     public EjercicioDTO crearEjercicio(EjercicioDTO ejercicioDTO) {
+        System.out.println(ejercicioDTO.usuario());
         return conversor.EntidadADTO(ejercicioDAO.crear(conversor.DTOAEntidad(ejercicioDTO)));
     }
 
