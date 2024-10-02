@@ -41,7 +41,7 @@ public class PruebasEjercicios {
         
         // crear ejercicio base
         Ejercicio ejercicioBase = new Ejercicio(
-                "Running", 
+                "Caminata", 
                 "Cardio", 
                 15.00f);
         
@@ -49,7 +49,7 @@ public class PruebasEjercicios {
 //        ejercicioDAO.crear(ejercicioBase);
         
         // se obtiene el ejercicio base
-        Ejercicio ejercicioEncontrado = ejercicioDAO.obtenerEjercicioNombre("Running");
+        Ejercicio ejercicioEncontrado = ejercicioDAO.obtenerEjercicioNombre("Caminata");
         
         // crear el ejercicio con los dias de entrenamiento
         Dia lunes = new Dia(DiaSemana.LUNES);
