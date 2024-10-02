@@ -1,7 +1,7 @@
 /*
  * Conexion.java
  */
-package com.mycompany.agenciafiscaldaos;
+package daos;
 
 import daos.IConexion;
 import javax.persistence.EntityManager;

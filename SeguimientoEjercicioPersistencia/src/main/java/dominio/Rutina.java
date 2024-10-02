@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,20 +25,27 @@ public class Rutina implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Genera automáticamente un ID único
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)  // Relación uno a muchos con Ejercicio
-    @JoinColumn(name = "rutina_id")  // Define la clave foránea en la tabla ejercicios
-    private List<Ejercicio> ejercicios;
+    @OneToMany(mappedBy = "rutina", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EjercicioDiario> ejerciciosDiarios;
+    
+    @ManyToOne
+    @JoinColumn(name = "usuarios_id", nullable = false)  // Nueva relación
+    private Usuario usuario;  // Nuevo atributo que referencia al usuario
 
     // Constructor vacío requerido por JPA
     public Rutina() {
+    }
+
+    public Rutina(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     /**
      * Constructor de la clase Rutina con todos los atributos.
      * @param ejercicios
      */
-    public Rutina(List<Ejercicio> ejercicios) {
-        this.ejercicios = ejercicios;
+    public Rutina(List<EjercicioDiario> ejercicios) {
+        this.ejerciciosDiarios = ejercicios;
     }
 
     // Getters y setters
@@ -49,11 +58,20 @@ public class Rutina implements Serializable {
         this.id = id;
     }
 
-    public List<Ejercicio> getEjercicios() {
-        return ejercicios;
+    public List<EjercicioDiario> getEjerciciosDiarios() {
+        return ejerciciosDiarios;
     }
 
-    public void setEjercicios(List<Ejercicio> ejercicios) {
-        this.ejercicios = ejercicios;
+    public void setEjerciciosDiarios(List<EjercicioDiario> ejerciciosDiarios) {
+        this.ejerciciosDiarios = ejerciciosDiarios;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
 }

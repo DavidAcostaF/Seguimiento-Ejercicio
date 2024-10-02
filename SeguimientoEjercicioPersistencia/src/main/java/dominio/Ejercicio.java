@@ -24,30 +24,23 @@ public class Ejercicio implements Serializable {
     @Column(name = "duracion", nullable = false)
     private float duracion;
 
-    @ManyToOne(fetch = FetchType.LAZY) // La carga puede ser LAZY
-    @JoinColumn(name = "usuario_id", nullable = false) // Especifica el nombre de la columna para el ID del usuario
-    private Usuario usuario;
-
-
     // Constructor vacío requerido por JPA
     public Ejercicio() {
     }
 
     // Constructor con todos los atributos menos el id (cuando se crea un nuevo ejercicio)
-    public Ejercicio(String nombre, String tipo, float duracion, Usuario usuario) {
+    public Ejercicio(String nombre, String tipo, float duracion) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.duracion = duracion;
-        this.usuario = usuario;
     }
 
     // Constructor con id (para actualizaciones o casos donde ya existe el ejercicio)
-    public Ejercicio(Long id, String nombre, String tipo, float duracion, Usuario usuario) {
+    public Ejercicio(Long id, String nombre, String tipo, float duracion) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
         this.duracion = duracion;
-        this.usuario = usuario;
     }
 
     // Getters y setters
@@ -83,14 +76,6 @@ public class Ejercicio implements Serializable {
         this.duracion = duracion;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     @Override
     public String toString() {
         return "Ejercicio{" +
@@ -98,7 +83,6 @@ public class Ejercicio implements Serializable {
                 ", nombre='" + nombre + '\'' +
                 ", tipo='" + tipo + '\'' +
                 ", duracion=" + duracion +
-                ", usuario=" + usuario.getId() + // Para evitar imprimir toda la información del usuario
                 '}';
     }
 }

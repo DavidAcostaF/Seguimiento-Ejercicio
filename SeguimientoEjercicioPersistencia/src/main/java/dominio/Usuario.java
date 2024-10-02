@@ -44,15 +44,16 @@ public class Usuario implements Serializable {
     @Column(name = "estatura")
     private float estatura;
     
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST) 
-    private List<Ejercicio> ejercicios;
-    
-    @OneToOne(cascade = CascadeType.ALL)  // Relación uno a uno con PlanEntrenamiento
-    @JoinColumn(name = "plan_entrenamiento_id")
-    private PlanEntrenamiento planEntrenamiento;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Rutina> rutinas;
 
     // Constructor vacío requerido por JPA
     public Usuario() {
+    }
+
+    public Usuario(String nomUsuario, String contrasenia) {
+        this.nomUsuario = nomUsuario;
+        this.contrasenia = contrasenia;
     }
 
     /**
@@ -64,14 +65,14 @@ public class Usuario implements Serializable {
      * @param estatura
      * @param planEntrenamiento
      */
-    public Usuario(String nombre, String nomUsuario,String contrasenia, int edad, float peso, float estatura, PlanEntrenamiento planEntrenamiento) {
+    public Usuario(String nombre, String nomUsuario,String contrasenia, int edad, float peso, float estatura, List<Rutina> rutinas) {
         this.nombre = nombre;
         this.nomUsuario = nomUsuario;
         this.edad = edad;
         this.contrasenia = contrasenia;
         this.peso = peso;
         this.estatura = estatura;
-        this.planEntrenamiento = planEntrenamiento;
+        this.rutinas = rutinas;
     }
 
     public Usuario(String nombre, String nomUsuario,String contrasenia,  int edad, float peso, float estatura) {
@@ -81,7 +82,6 @@ public class Usuario implements Serializable {
         this.peso = peso;
         this.estatura = estatura;
         this.contrasenia = contrasenia;
-
     }
 
     // Getters y setters
@@ -102,12 +102,12 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<Ejercicio> getEjercicios() {
-        return ejercicios;
+    public List<Rutina> getRutinas() {
+        return rutinas;
     }
 
-    public void setEjercicios(List<Ejercicio> ejercicios) {
-        this.ejercicios = ejercicios;
+    public void setRutinas(List<Rutina> rutinas) {
+        this.rutinas = rutinas;
     }
 
     public String getNomUsuario() {
@@ -150,11 +150,6 @@ public class Usuario implements Serializable {
         this.estatura = estatura;
     }
 
-    public PlanEntrenamiento getPlanEntrenamiento() {
-        return planEntrenamiento;
-    }
-
-    public void setPlanEntrenamiento(PlanEntrenamiento planEntrenamiento) {
-        this.planEntrenamiento = planEntrenamiento;
-    }
+    
+    
 }

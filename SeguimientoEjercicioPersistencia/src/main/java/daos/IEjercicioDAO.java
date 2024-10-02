@@ -5,6 +5,7 @@
 package daos;
 
 import dominio.Ejercicio;
+import dominio.EjercicioDiario;
 import java.util.List;
 
 
@@ -13,6 +14,5 @@ import java.util.List;
  * @author af_da
  */
 public interface IEjercicioDAO {
-    Ejercicio crear(Ejercicio ejercicio);
-    List<Ejercicio> lista();
+    public EjercicioDiario crear(EjercicioDiario ejercicio);
 }

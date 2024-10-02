@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package daos;
 
-import com.mycompany.agenciafiscaldaos.Conexion;
 import dominio.Ejercicio;
+import dominio.EjercicioDiario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -21,7 +17,7 @@ public class EjercicioDAO implements IEjercicioDAO{
         this.conexion = new Conexion();
     }
     @Override
-    public Ejercicio crear(Ejercicio ejercicio) {
+    public EjercicioDiario crear(EjercicioDiario ejercicio) {
         EntityManager entityManager = conexion.obtenerConexion();
         entityManager.getTransaction().begin();
         entityManager.persist(ejercicio);
@@ -29,18 +25,6 @@ public class EjercicioDAO implements IEjercicioDAO{
         entityManager.refresh(ejercicio);
         entityManager.close();
         return ejercicio;
-    }
-
-    @Override
-    public List<Ejercicio> lista() {
-        EntityManager entityManager = conexion.obtenerConexion();
-        try {
-            TypedQuery<Ejercicio> query = entityManager.createQuery("SELECT e FROM ejercicios e", Ejercicio.class);
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of(); // Devuelve una lista vacía en caso de error
-        }
     }
     
 }
