@@ -11,6 +11,7 @@ package presentacion;
 public class SeguimientoEjercicioPresentacion {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        dlg_RegistroUsuario registroUsuarios = new dlg_RegistroUsuario();
+        registroUsuarios.setVisible(true);
     }
 }

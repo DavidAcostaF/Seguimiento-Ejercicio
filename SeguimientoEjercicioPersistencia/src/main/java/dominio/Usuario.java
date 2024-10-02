@@ -28,7 +28,10 @@ public class Usuario implements Serializable {
 
     @Column(name = "nom_usuario", unique = true, nullable = false)
     private String nomUsuario;
-
+    
+    @Column(name = "contrasenia")
+    private String contrasenia;
+    
     @Column(name = "edad", nullable = false)
     private int edad;
 
@@ -37,7 +40,7 @@ public class Usuario implements Serializable {
 
     @Column(name = "estatura")
     private float estatura;
-
+    
     @OneToOne(cascade = CascadeType.ALL)  // Relación uno a uno con PlanEntrenamiento
     @JoinColumn(name = "plan_entrenamiento_id")
     private PlanEntrenamiento planEntrenamiento;
@@ -55,13 +58,24 @@ public class Usuario implements Serializable {
      * @param estatura
      * @param planEntrenamiento
      */
-    public Usuario(String nombre, String nomUsuario, int edad, float peso, float estatura, PlanEntrenamiento planEntrenamiento) {
+    public Usuario(String nombre, String nomUsuario,String contrasenia, int edad, float peso, float estatura, PlanEntrenamiento planEntrenamiento) {
+        this.nombre = nombre;
+        this.nomUsuario = nomUsuario;
+        this.edad = edad;
+        this.contrasenia = contrasenia;
+        this.peso = peso;
+        this.estatura = estatura;
+        this.planEntrenamiento = planEntrenamiento;
+    }
+
+    public Usuario(String nombre, String nomUsuario,String contrasenia,  int edad, float peso, float estatura) {
         this.nombre = nombre;
         this.nomUsuario = nomUsuario;
         this.edad = edad;
         this.peso = peso;
         this.estatura = estatura;
-        this.planEntrenamiento = planEntrenamiento;
+        this.contrasenia = contrasenia;
+
     }
 
     // Getters y setters
@@ -88,6 +102,14 @@ public class Usuario implements Serializable {
 
     public void setNomUsuario(String nomUsuario) {
         this.nomUsuario = nomUsuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public int getEdad() {
