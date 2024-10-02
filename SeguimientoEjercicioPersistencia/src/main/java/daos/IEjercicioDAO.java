@@ -14,5 +14,6 @@ import java.util.List;
  * @author af_da
  */
 public interface IEjercicioDAO {
-    public EjercicioDiario crear(EjercicioDiario ejercicio);
+    public Ejercicio crear(Ejercicio ejercicio);
+    public Ejercicio obtenerEjercicioNombre(String nombre);
 }

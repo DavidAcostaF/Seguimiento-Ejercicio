@@ -2,6 +2,7 @@ package daos;
 
 import dominio.Rutina;
 import dominio.Usuario;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -28,5 +29,16 @@ public class RutinaDAO implements IRutinaDAO{
         return rutina;
         
     }
-    
+
+    @Override
+    public Rutina obtenerRutinaUsuario(Usuario usuario) {
+        EntityManager entityManager = conexion.obtenerConexion();
+        List<Rutina> rutinasEncontradas = entityManager.createQuery(
+                "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario", Rutina.class)
+                .setParameter("id_usuario", usuario.getId())
+                .getResultList();
+
+        return rutinasEncontradas.isEmpty() ? null : rutinasEncontradas.get(0);
+    }
+
 }

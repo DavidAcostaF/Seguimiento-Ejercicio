@@ -27,10 +27,15 @@ public class PruebasRutinas {
                 "Contra");
         Usuario usuarioEncontrado = usuarioDAO.obtener(usuarioExistente);
         
-        Rutina rutinaNueva = new Rutina(usuarioEncontrado);
+//        Rutina rutinaNueva = new Rutina(usuarioEncontrado);
+//        
+//        // se crea la rutina
+//        rutinaDAO.crearRutina(rutinaNueva);
         
-        // se crea la rutina
-        rutinaDAO.crearRutina(rutinaNueva);
+        // Obtener rutina
+        Rutina rutinaEncontrada = rutinaDAO.obtenerRutinaUsuario(usuarioEncontrado);
+        
+        System.out.println(rutinaEncontrada);
         
     }
     

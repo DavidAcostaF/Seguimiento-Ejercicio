@@ -1,7 +1,6 @@
 package daos;
 
 import dominio.Ejercicio;
-import dominio.EjercicioDiario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -17,7 +16,7 @@ public class EjercicioDAO implements IEjercicioDAO{
         this.conexion = new Conexion();
     }
     @Override
-    public EjercicioDiario crear(EjercicioDiario ejercicio) {
+    public Ejercicio crear(Ejercicio ejercicio) {
         EntityManager entityManager = conexion.obtenerConexion();
         entityManager.getTransaction().begin();
         entityManager.persist(ejercicio);
@@ -25,6 +24,17 @@ public class EjercicioDAO implements IEjercicioDAO{
         entityManager.refresh(ejercicio);
         entityManager.close();
         return ejercicio;
+    }
+
+    @Override
+    public Ejercicio obtenerEjercicioNombre(String nombre) {
+        EntityManager entityManager = conexion.obtenerConexion();
+        List<Ejercicio> rutinasEncontradas = entityManager.createQuery(
+                "SELECT e FROM Ejercicio e WHERE e.nombre = :nombre_ejercicio", Ejercicio.class)
+                .setParameter("nombre_ejercicio", nombre)
+                .getResultList();
+
+        return rutinasEncontradas.isEmpty() ? null : rutinasEncontradas.get(0);
     }
     
 }

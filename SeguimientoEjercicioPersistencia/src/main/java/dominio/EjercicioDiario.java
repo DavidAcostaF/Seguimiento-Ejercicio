@@ -1,6 +1,7 @@
 package dominio;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
     @JoinColumn(name = "ejercicio_id", nullable = false)
     private Ejercicio ejercicio;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "dia_id", nullable = false)
     private Dia dia;
     
