@@ -2,15 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package daos;
+package negocio;
 
-import dominio.Usuario;
+import dtos.EjercicioDTO;
+import java.util.List;
 
 /**
  *
  * @author af_da
  */
-public interface IUsuarioDAO {
-    public Usuario crear(Usuario usuario);
-    public Usuario obtener(Usuario usuario);
+public interface IEjercicioBO {
+    void crearEjercicio(EjercicioDTO ejercicioDTO);
+    List<EjercicioDTO> listaEjercicios();
 }

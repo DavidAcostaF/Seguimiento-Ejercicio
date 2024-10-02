@@ -158,7 +158,7 @@ public class dlg_RegistroUsuario extends javax.swing.JFrame {
         String estatura = txtEstatura.getText();
         char[] contrasenia = txtcontra1.getPassword();
         UsuarioDTO usuarioDTO = new UsuarioDTO(nombre, usuario, String.valueOf(contrasenia),Integer.parseInt(edad),Float.parseFloat(peso),Float.parseFloat(estatura));
-        usuariosBO.crearUsuario(usuarioDTO);
+        UsuarioDTO usuarioCreado = usuariosBO.crearUsuario(usuarioDTO);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
 

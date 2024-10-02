@@ -3,8 +3,8 @@ package conversores;
 import dominio.Usuario;
 import dtos.UsuarioDTO;
 
-public class UsuarioConversor {
-
+public class UsuarioConversor implements IConversor<Usuario,UsuarioDTO>{
+    @Override
     public UsuarioDTO EntidadADTO(Usuario usuario) {
         if (usuario == null) {
             return null; // Manejo de null
@@ -18,7 +18,7 @@ public class UsuarioConversor {
             usuario.getEstatura()
         );
     }
-
+    @Override
     public Usuario DTOAEntidad(UsuarioDTO usuarioDTO) {
         if (usuarioDTO == null) {
             return null; // Manejo de null

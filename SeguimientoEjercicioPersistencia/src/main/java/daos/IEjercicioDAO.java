@@ -4,13 +4,14 @@
  */
 package daos;
 
-import dominio.Usuario;
+import dominio.Ejercicio;
+import java.util.List;
 
 /**
  *
  * @author af_da
  */
-public interface IUsuarioDAO {
-    public Usuario crear(Usuario usuario);
-    public Usuario obtener(Usuario usuario);
+public interface IEjercicioDAO {
+    void crear(Ejercicio ejercicio);
+    List<Ejercicio> lista();
 }

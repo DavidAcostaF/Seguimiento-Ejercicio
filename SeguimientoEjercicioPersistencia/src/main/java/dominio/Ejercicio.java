@@ -51,6 +51,14 @@ public class Ejercicio implements Serializable{
         this.repeticiones = repeticiones;
     }
 
+    public Ejercicio(Long id, String nombre, String descripcion, int series, int repeticiones) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.series = series;
+        this.repeticiones = repeticiones;
+    }
+    
     // Getters y setters
     public Long getId() {
         return id;
