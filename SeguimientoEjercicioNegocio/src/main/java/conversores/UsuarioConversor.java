@@ -9,7 +9,9 @@ public class UsuarioConversor implements IConversor<Usuario,UsuarioDTO>{
         if (usuario == null) {
             return null; // Manejo de null
         }
-        return new UsuarioDTO(
+//        if (usuario.getId() != null ){
+            return new UsuarioDTO(
+            usuario.getId(),
             usuario.getNombre(),
             usuario.getNomUsuario(),
             usuario.getContrasenia(),
@@ -17,6 +19,16 @@ public class UsuarioConversor implements IConversor<Usuario,UsuarioDTO>{
             usuario.getPeso(),
             usuario.getEstatura()
         );
+//        }
+//        return new UsuarioDTO(
+//            usuario.getId(),
+//            usuario.getNombre(),
+//            usuario.getNomUsuario(),
+//            usuario.getContrasenia(),
+//            usuario.getEdad(),
+//            usuario.getPeso(),
+//            usuario.getEstatura()
+//        );
     }
     @Override
     public Usuario DTOAEntidad(UsuarioDTO usuarioDTO) {

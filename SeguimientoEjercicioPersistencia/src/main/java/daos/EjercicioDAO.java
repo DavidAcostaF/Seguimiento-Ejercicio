@@ -21,13 +21,14 @@ public class EjercicioDAO implements IEjercicioDAO{
         this.conexion = new Conexion();
     }
     @Override
-    public void crear(Ejercicio ejercicio) {
+    public Ejercicio crear(Ejercicio ejercicio) {
         EntityManager entityManager = conexion.obtenerConexion();
         entityManager.getTransaction().begin();
         entityManager.persist(ejercicio);
         entityManager.getTransaction().commit();
         entityManager.refresh(ejercicio);
         entityManager.close();
+        return ejercicio;
     }
 
     @Override

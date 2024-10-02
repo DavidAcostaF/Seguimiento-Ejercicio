@@ -12,5 +12,5 @@ import dtos.UsuarioDTO;
  */
 public interface IUsuarioBO {
     UsuarioDTO crearUsuario(UsuarioDTO usuario);
-    UsuarioDTO obtenerUsuario();
+    UsuarioDTO loginUsuario(UsuarioDTO usuario);
 }

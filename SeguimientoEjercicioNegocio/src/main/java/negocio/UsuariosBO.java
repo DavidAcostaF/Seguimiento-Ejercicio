@@ -27,8 +27,8 @@ public class UsuariosBO implements IUsuarioBO{
     }
 
     @Override
-    public UsuarioDTO obtenerUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public UsuarioDTO loginUsuario(UsuarioDTO usuario) {
+        return conversor.EntidadADTO(usuarioDAO.obtener(conversor.DTOAEntidad(usuario)));
     }
     
 }

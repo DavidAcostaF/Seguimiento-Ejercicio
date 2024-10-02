@@ -4,14 +4,17 @@
 
 package presentacion;
 
+import dtos.UsuarioDTO;
+
 /**
  *
  * @author af_da
  */
 public class SeguimientoEjercicioPresentacion {
-
+    public static UsuarioDTO USUARIO;
+    
     public static void main(String[] args) {
-        dlg_RegistroUsuario registroUsuarios = new dlg_RegistroUsuario();
-        registroUsuarios.setVisible(true);
+        LoginUsuario loginoUsuarios = new LoginUsuario();
+        loginoUsuarios.setVisible(true);
     }
 }

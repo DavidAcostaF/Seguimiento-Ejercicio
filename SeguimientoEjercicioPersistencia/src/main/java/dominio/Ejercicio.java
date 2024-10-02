@@ -1,13 +1,7 @@
 package dominio;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 /**
  * Clase que representa la definición de un ejercicio en un plan de entrenamiento.
@@ -15,7 +9,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ejercicios")
-public class Ejercicio implements Serializable{
+public class Ejercicio implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,41 +18,38 @@ public class Ejercicio implements Serializable{
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "tipo", nullable = false)
+    private String tipo;
 
-    @Column(name = "series", nullable = false)
-    private int series;
+    @Column(name = "duracion", nullable = false)
+    private float duracion;
 
-    @Column(name = "repeticiones", nullable = false)
-    private int repeticiones;
+    @ManyToOne(fetch = FetchType.LAZY) // La carga puede ser LAZY
+    @JoinColumn(name = "usuario_id", nullable = false) // Especifica el nombre de la columna para el ID del usuario
+    private Usuario usuario;
+
 
     // Constructor vacío requerido por JPA
     public Ejercicio() {
     }
 
-    /**
-     * Constructor con todos los atributos
-     * @param nombre Nombre del ejercicio
-     * @param descripcion Descripción del ejercicio
-     * @param series Número de series del ejercicio
-     * @param repeticiones Número de repeticiones por serie
-     */
-    public Ejercicio(String nombre, String descripcion, int series, int repeticiones) {
+    // Constructor con todos los atributos menos el id (cuando se crea un nuevo ejercicio)
+    public Ejercicio(String nombre, String tipo, float duracion, Usuario usuario) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.series = series;
-        this.repeticiones = repeticiones;
+        this.tipo = tipo;
+        this.duracion = duracion;
+        this.usuario = usuario;
     }
 
-    public Ejercicio(Long id, String nombre, String descripcion, int series, int repeticiones) {
+    // Constructor con id (para actualizaciones o casos donde ya existe el ejercicio)
+    public Ejercicio(Long id, String nombre, String tipo, float duracion, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.series = series;
-        this.repeticiones = repeticiones;
+        this.tipo = tipo;
+        this.duracion = duracion;
+        this.usuario = usuario;
     }
-    
+
     // Getters y setters
     public Long getId() {
         return id;
@@ -76,28 +67,28 @@ public class Ejercicio implements Serializable{
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public int getSeries() {
-        return series;
+    public float getDuracion() {
+        return duracion;
     }
 
-    public void setSeries(int series) {
-        this.series = series;
+    public void setDuracion(float duracion) {
+        this.duracion = duracion;
     }
 
-    public int getRepeticiones() {
-        return repeticiones;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setRepeticiones(int repeticiones) {
-        this.repeticiones = repeticiones;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -105,12 +96,9 @@ public class Ejercicio implements Serializable{
         return "Ejercicio{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", series=" + series +
-                ", repeticiones=" + repeticiones +
+                ", tipo='" + tipo + '\'' +
+                ", duracion=" + duracion +
+                ", usuario=" + usuario.getId() + // Para evitar imprimir toda la información del usuario
                 '}';
     }
-    
-    
-    
 }

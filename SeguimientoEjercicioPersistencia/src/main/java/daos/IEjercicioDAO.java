@@ -7,11 +7,12 @@ package daos;
 import dominio.Ejercicio;
 import java.util.List;
 
+
 /**
  *
  * @author af_da
  */
 public interface IEjercicioDAO {
-    void crear(Ejercicio ejercicio);
+    Ejercicio crear(Ejercicio ejercicio);
     List<Ejercicio> lista();
 }

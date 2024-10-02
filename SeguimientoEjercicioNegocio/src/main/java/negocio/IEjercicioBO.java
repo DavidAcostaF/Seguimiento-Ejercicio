@@ -12,6 +12,6 @@ import java.util.List;
  * @author af_da
  */
 public interface IEjercicioBO {
-    void crearEjercicio(EjercicioDTO ejercicioDTO);
+    EjercicioDTO crearEjercicio(EjercicioDTO ejercicioDTO);
     List<EjercicioDTO> listaEjercicios();
 }

@@ -11,12 +11,12 @@ import negocio.UsuariosBO;
  *
  * @author af_da
  */
-public class dlg_RegistroUsuario extends javax.swing.JFrame {
+public class RegistroUsuario extends javax.swing.JFrame {
     private UsuariosBO usuariosBO;
     /**
      * Creates new form dlg_RegistroUsuario
      */
-    public dlg_RegistroUsuario() {
+    public RegistroUsuario() {
         initComponents();
         usuariosBO = new UsuariosBO();
         
@@ -157,7 +157,7 @@ public class dlg_RegistroUsuario extends javax.swing.JFrame {
         String peso = txtPeso.getText();
         String estatura = txtEstatura.getText();
         char[] contrasenia = txtcontra1.getPassword();
-        UsuarioDTO usuarioDTO = new UsuarioDTO(nombre, usuario, String.valueOf(contrasenia),Integer.parseInt(edad),Float.parseFloat(peso),Float.parseFloat(estatura));
+        UsuarioDTO usuarioDTO = new UsuarioDTO(null,nombre, usuario, String.valueOf(contrasenia),Integer.parseInt(edad),Float.parseFloat(peso),Float.parseFloat(estatura));
         UsuarioDTO usuarioCreado = usuariosBO.crearUsuario(usuarioDTO);
     }//GEN-LAST:event_btnAceptarActionPerformed
 

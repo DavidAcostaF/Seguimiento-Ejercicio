@@ -29,8 +29,8 @@ public class EjercicioBO implements IEjercicioBO {
     }
 
     @Override
-    public void crearEjercicio(EjercicioDTO ejercicioDTO) {
-        ejercicioDAO.crear(conversor.DTOAEntidad(ejercicioDTO));
+    public EjercicioDTO crearEjercicio(EjercicioDTO ejercicioDTO) {
+        return conversor.EntidadADTO(ejercicioDAO.crear(conversor.DTOAEntidad(ejercicioDTO)));
     }
 
     @Override

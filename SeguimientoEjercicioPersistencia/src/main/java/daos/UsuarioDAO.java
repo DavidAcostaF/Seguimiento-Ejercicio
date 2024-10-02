@@ -33,7 +33,18 @@ public class UsuarioDAO implements IUsuarioDAO{
 
     @Override
     public Usuario obtener(Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager entityManager = conexion.obtenerConexion();
+         Usuario usuarioEncontrado = entityManager.createQuery(
+                "SELECT u FROM Usuario u WHERE u.nomUsuario = :nom_usuario AND u.contrasenia = :contrasenia", Usuario.class)
+                .setParameter("nom_usuario", usuario.getNomUsuario())
+                .setParameter("contrasenia", usuario.getContrasenia()) 
+                .getSingleResult();
+         
+        if(usuarioEncontrado==null){
+            return null;
+        }
+        return usuarioEncontrado;
+
     }
     
 }

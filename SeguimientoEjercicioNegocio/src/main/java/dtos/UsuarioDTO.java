@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public record UsuarioDTO(
+    Long id,
     String nombre,
     String nomUsuario,
     String contrasenia,

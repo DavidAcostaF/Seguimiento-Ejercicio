@@ -1,6 +1,7 @@
 package conversores;
 
 import dominio.Ejercicio;
+import dominio.Usuario;
 import dtos.EjercicioDTO;
 
 /**
@@ -10,7 +11,12 @@ import dtos.EjercicioDTO;
  * @author af_da
  */
 public class EjercicioConversor implements IConversor<Ejercicio, EjercicioDTO> {
-
+    public UsuarioConversor conversorUsuario;
+    
+    public EjercicioConversor() {
+        this.conversorUsuario = new UsuarioConversor();
+    }
+    
     @Override
     public EjercicioDTO EntidadADTO(Ejercicio entidad) {
         if (entidad == null) {
@@ -19,9 +25,9 @@ public class EjercicioConversor implements IConversor<Ejercicio, EjercicioDTO> {
         return new EjercicioDTO(
             entidad.getId(),
             entidad.getNombre(),
-            entidad.getDescripcion(),
-            entidad.getSeries(),
-            entidad.getRepeticiones()
+            entidad.getTipo(),
+            entidad.getDuracion(),
+            conversorUsuario.EntidadADTO(entidad.getUsuario()) // Obtenemos el id del usuario
         );
     }
 
@@ -30,12 +36,14 @@ public class EjercicioConversor implements IConversor<Ejercicio, EjercicioDTO> {
         if (dto == null) {
             return null; // Manejo de caso nulo
         }
+
+
         return new Ejercicio(
             dto.id(),
             dto.nombre(),
-            dto.descripcion(),
-            dto.series(),
-            dto.repeticiones()
+            dto.tipo(),
+            dto.duracion(),
+            conversorUsuario.DTOAEntidad(dto.usuario())// Asignamos el usuario a la entidad
         );
     }
 }

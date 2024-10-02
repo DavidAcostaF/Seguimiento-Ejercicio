@@ -1,13 +1,16 @@
 package dominio;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -40,6 +43,9 @@ public class Usuario implements Serializable {
 
     @Column(name = "estatura")
     private float estatura;
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST) 
+    private List<Ejercicio> ejercicios;
     
     @OneToOne(cascade = CascadeType.ALL)  // Relación uno a uno con PlanEntrenamiento
     @JoinColumn(name = "plan_entrenamiento_id")
@@ -94,6 +100,14 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Ejercicio> getEjercicios() {
+        return ejercicios;
+    }
+
+    public void setEjercicios(List<Ejercicio> ejercicios) {
+        this.ejercicios = ejercicios;
     }
 
     public String getNomUsuario() {
