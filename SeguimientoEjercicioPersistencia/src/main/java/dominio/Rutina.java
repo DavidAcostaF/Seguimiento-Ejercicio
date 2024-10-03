@@ -43,6 +43,11 @@ public class Rutina implements Serializable {
         this.usuario = usuario;
     }
 
+    public Rutina(Usuario usuario, Dia dia) {
+        this.usuario = usuario;
+        this.dia = dia;
+    }
+
     /**
      * Constructor de la clase Rutina con todos los atributos.
      * @param ejercicios

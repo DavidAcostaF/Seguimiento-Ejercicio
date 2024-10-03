@@ -53,16 +53,16 @@ public class PruebasEjercicios {
         
         // crear el ejercicio con los dias de entrenamiento
         Dia lunes = new Dia(DiaSemana.LUNES);
-        EjercicioDiario ejercicioLunes = new EjercicioDiario(
-                ejercicioEncontrado, 
-                lunes, 
-                false, 
-                rutinaEncontrada);
-        
-        // persistencia del ejercicio con dia
-        IEjercicioDiarioDAO ejercicioDiaDAO = new EjercicioDiarioDAO();
-        
-        ejercicioDiaDAO.crear(ejercicioLunes);
+//        EjercicioDiario ejercicioLunes = new EjercicioDiario(
+//                ejercicioEncontrado, 
+//                lunes, 
+//                false, 
+//                rutinaEncontrada);
+//        
+//        // persistencia del ejercicio con dia
+//        IEjercicioDiarioDAO ejercicioDiaDAO = new EjercicioDiarioDAO();
+//        
+//        ejercicioDiaDAO.crear(ejercicioLunes);
         
         
     }

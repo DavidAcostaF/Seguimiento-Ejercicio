@@ -33,6 +33,11 @@ public class Dia implements Serializable {
         this.nombre = nombre;
     }
 
+    public Dia(Long id, DiaSemana nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
     public Long getId() {
         return id;
     }
