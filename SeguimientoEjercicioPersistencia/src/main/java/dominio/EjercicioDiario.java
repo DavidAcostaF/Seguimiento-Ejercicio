@@ -16,8 +16,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ejercicios_diarios")
-public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio a EjercicioDiario
-    
+public class EjercicioDiario implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,26 +25,26 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
     @ManyToOne
     @JoinColumn(name = "ejercicio_id", nullable = false)
     private Ejercicio ejercicio;
-    
-    
+
     @Column(name = "completado", nullable = false)
     private boolean completado;
-    
+
     @ManyToOne
-    @JoinColumn(name = "rutina_id", nullable = false)  
-    private Rutina rutina;  
-    
+    @JoinColumn(name = "rutina_id", nullable = false)
+    private Rutina rutina;
+
+    @Column(name = "activo", nullable = false)  // Soft delete field
+    private boolean activo = true;  // Por defecto el registro es activo
+
     public EjercicioDiario() {
     }
-
-    // Constructor, getters y setters
 
     public EjercicioDiario(Ejercicio ejercicio, boolean completado, Rutina rutina) {
         this.ejercicio = ejercicio;
         this.completado = completado;
         this.rutina = rutina;
     }
-    
+
     public EjercicioDiario(Ejercicio ejercicio, boolean completado) {
         this.ejercicio = ejercicio;
         this.completado = completado;
@@ -58,7 +58,7 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public Ejercicio getEjercicio() {
         return ejercicio;
     }
@@ -66,7 +66,6 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
     public void setEjercicio(Ejercicio ejercicio) {
         this.ejercicio = ejercicio;
     }
-
 
     public boolean isCompletado() {
         return completado;
@@ -83,6 +82,17 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    
-    
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    // Método para realizar el soft delete
+    public void softDelete() {
+        this.activo = false;
+    }
 }

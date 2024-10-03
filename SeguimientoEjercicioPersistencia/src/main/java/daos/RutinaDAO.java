@@ -19,7 +19,6 @@ public class RutinaDAO implements IRutinaDAO{
     
     @Override
     public Rutina crearRutina(Rutina rutina) {
-        System.out.println(rutina.getUsuario().getId()+"USUARIO MANDADOI");
         EntityManager entityManager = conexion.obtenerConexion();
         entityManager.getTransaction().begin();
         entityManager.persist(rutina);

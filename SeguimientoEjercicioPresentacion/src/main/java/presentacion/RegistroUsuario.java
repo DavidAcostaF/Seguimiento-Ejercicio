@@ -4,7 +4,14 @@
  */
 package presentacion;
 
+import dtos.DiaDTO;
+import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.JOptionPane;
+import negocio.DiaBO;
+import negocio.RutinaBO;
 import negocio.UsuariosBO;
 
 /**
@@ -12,14 +19,16 @@ import negocio.UsuariosBO;
  * @author af_da
  */
 public class RegistroUsuario extends javax.swing.JFrame {
+
     private UsuariosBO usuariosBO;
+
     /**
      * Creates new form dlg_RegistroUsuario
      */
     public RegistroUsuario() {
         initComponents();
         usuariosBO = new UsuariosBO();
-        
+
     }
 
     /**
@@ -176,18 +185,49 @@ public class RegistroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         String nombre = txtNombre.getText();
         String usuario = txtUsuario.getText();
         String edad = txtEdad.getText();
         String peso = txtPeso.getText();
         String estatura = txtEstatura.getText();
         char[] contrasenia = txtcontra1.getPassword();
-        UsuarioDTO usuarioDTO = new UsuarioDTO(null,nombre, usuario, String.valueOf(contrasenia),Integer.parseInt(edad),Float.parseFloat(peso),Float.parseFloat(estatura));
+        UsuarioDTO usuarioDTO = new UsuarioDTO(null, nombre, usuario, String.valueOf(contrasenia), Integer.parseInt(edad), Float.parseFloat(peso), Float.parseFloat(estatura));
         UsuarioDTO usuarioCreado = usuariosBO.crearUsuario(usuarioDTO);
-    }//GEN-LAST:event_btnCancelarActionPerformed
+        
+        
+        if (usuarioCreado==null){
+            JOptionPane.showMessageDialog(this, "No se ha podido crear el usuario");
+        }
+        
+        UsuariosBO usuarioBO = new UsuariosBO();
+        UsuarioDTO usuarioConsultadoDTO = usuarioBO.loginUsuario(usuarioDTO);
+        RutinaBO rutinaBO = new RutinaBO();
+        if (usuarioConsultadoDTO!= null) {
+            DiaBO diasBO = new DiaBO();
+            List<DiaDTO> dias = diasBO.obtenerDias();
+            AtomicInteger index = new AtomicInteger(); 
 
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+            dias.forEach(dia -> {
+                int currentIndex = index.getAndIncrement()+1;
+
+                DiaDTO diaNuevo = new DiaDTO(Long.parseLong(String.valueOf(currentIndex)),dia.nombre());
+                RutinaDTO rutinaDTO = new RutinaDTO(-1L,null,usuarioConsultadoDTO,diaNuevo);
+                rutinaBO.crearRutina(rutinaDTO);
+                }); 
+
+
+            System.out.println("Rutina creada con éxito.");
+            SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultadoDTO;
+            Menu menu = new Menu();
+            menu.setVisible(true);
+            this.dispose();
+        } else {
+            System.out.println("Error en el inicio de sesión.");
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
 

@@ -75,6 +75,17 @@ public class Usuario implements Serializable {
         this.rutinas = rutinas;
     }
 
+    public Usuario(Long id, String nombre, String nomUsuario, String contrasenia, int edad, float peso, float estatura, List<Rutina> rutinas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.nomUsuario = nomUsuario;
+        this.contrasenia = contrasenia;
+        this.edad = edad;
+        this.peso = peso;
+        this.estatura = estatura;
+        this.rutinas = rutinas;
+    }
+
     public Usuario(String nombre, String nomUsuario,String contrasenia,  int edad, float peso, float estatura) {
         this.nombre = nombre;
         this.nomUsuario = nomUsuario;

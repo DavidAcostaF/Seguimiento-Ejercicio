@@ -11,6 +11,7 @@ import dtos.DiaDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import negocio.DiaBO;
 import negocio.RutinaBO;
 import negocio.UsuariosBO;
@@ -38,10 +39,14 @@ public class PruebasRutina {
             // Paso 3: Obtener los días
             DiaBO diasBO = new DiaBO();
             List<DiaDTO> dias = diasBO.obtenerDias(); // Suponiendo que este método devuelve una lista de días
+            AtomicInteger index = new AtomicInteger(); // Contador para el índice
 
             // Imprimir los días (opcional)
             dias.forEach(dia -> {
-                RutinaDTO rutinaDTO = new RutinaDTO(-1L,null,usuarioConsultadoDTO,dia);
+                int currentIndex = index.getAndIncrement()+1; // Obtiene el índice actual y luego lo incrementa
+
+                DiaDTO diaNuevo = new DiaDTO(Long.parseLong(String.valueOf(currentIndex)),dia.nombre());
+                RutinaDTO rutinaDTO = new RutinaDTO(-1L,null,usuarioConsultadoDTO,diaNuevo);
                 rutinaBO.crearRutina(rutinaDTO);
                 }); 
 

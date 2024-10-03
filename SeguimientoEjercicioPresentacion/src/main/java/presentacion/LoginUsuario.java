@@ -13,15 +13,16 @@ import negocio.UsuariosBO;
  * @author af_da
  */
 public class LoginUsuario extends javax.swing.JFrame {
+
     private UsuariosBO usuariosBO;
-    
+
     /**
      * Creates new form LoginUsuario
      */
     public LoginUsuario() {
         initComponents();
         usuariosBO = new UsuariosBO();
-        
+
     }
 
     /**
@@ -75,23 +76,24 @@ public class LoginUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
+        RegistroUsuario registro = new RegistroUsuario();
+        registro.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegistroActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String usuario = txtUsuario.getText();
         String contra = String.valueOf(txtContra.getPassword());
-        UsuarioDTO usuarioDTO = new UsuarioDTO(null,"", usuario, contra, 0,0f, 0f);
+        UsuarioDTO usuarioDTO = new UsuarioDTO(null, "", usuario, contra, 0, 0f, 0f);
         UsuarioDTO usuarioConsultado = this.usuariosBO.loginUsuario(usuarioDTO);
-        if(usuarioConsultado == null){
+        if (usuarioConsultado == null) {
             JOptionPane.showConfirmDialog(this, "No se encontró");
         }
         SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultado;
         RegistroEjercicio registroEjercicio = new RegistroEjercicio();
         registroEjercicio.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnRegistroActionPerformed
-
-    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnIngresarActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

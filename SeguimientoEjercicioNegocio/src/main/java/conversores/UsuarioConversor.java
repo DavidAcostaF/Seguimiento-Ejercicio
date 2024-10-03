@@ -36,6 +36,7 @@ public class UsuarioConversor implements IConversor<Usuario,UsuarioDTO>{
             return null; // Manejo de null
         }
         return new Usuario(
+            usuarioDTO.id(),
             usuarioDTO.nombre(),
             usuarioDTO.nomUsuario(),
             usuarioDTO.contrasenia(),
