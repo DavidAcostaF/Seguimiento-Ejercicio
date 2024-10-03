@@ -12,6 +12,6 @@ public interface IRutinaDAO {
     
     public Rutina crearRutina(Rutina rutina);
     
-    public List<Rutina> obtenerRutinaUsuario(Usuario usuario);
+    public Rutina obtenerRutinaUsuarioDia(Usuario usuario, int dia);
     
 }

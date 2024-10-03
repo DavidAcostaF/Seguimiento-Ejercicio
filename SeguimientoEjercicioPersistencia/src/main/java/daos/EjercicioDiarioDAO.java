@@ -17,6 +17,7 @@ public class EjercicioDiarioDAO implements IEjercicioDiarioDAO{
     
     @Override
     public EjercicioDiario crear(EjercicioDiario ejercicio) {
+        System.out.println(ejercicio.getEjercicio().getId()+"Si que si ");
         EntityManager entityManager = conexion.obtenerConexion();
         entityManager.getTransaction().begin();
         entityManager.persist(ejercicio);

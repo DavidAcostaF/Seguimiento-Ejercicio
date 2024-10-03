@@ -4,7 +4,9 @@
  */
 package negocio;
 
+import dominio.Usuario;
 import dtos.RutinaDTO;
+import dtos.UsuarioDTO;
 
 /**
  *
@@ -12,4 +14,5 @@ import dtos.RutinaDTO;
  */
 public interface IRutinaBO {
     void crearRutina(RutinaDTO rutina);
+    RutinaDTO obtenerRutina(UsuarioDTO usuario,int dia);
 }

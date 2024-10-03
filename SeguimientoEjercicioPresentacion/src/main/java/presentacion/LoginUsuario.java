@@ -90,8 +90,8 @@ public class LoginUsuario extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(this, "No se encontró");
         }
         SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultado;
-        RegistroEjercicio registroEjercicio = new RegistroEjercicio();
-        registroEjercicio.setVisible(true);
+        Menu menu = new Menu();
+        menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnIngresarActionPerformed
 

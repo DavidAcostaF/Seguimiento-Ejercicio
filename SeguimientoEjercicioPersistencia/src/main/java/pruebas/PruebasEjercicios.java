@@ -35,7 +35,7 @@ public class PruebasEjercicios {
         
         // Obtener rutina del usuario
         IRutinaDAO rutinaDAO = new RutinaDAO();
-        List<Rutina> rutinaEncontrada = rutinaDAO.obtenerRutinaUsuario(usuarioEncontrado);
+//        List<Rutina> rutinaEncontrada = rutinaDAO.obtenerRutinaUsuario(usuarioEncontrado);
         
         // Crear conexion con DAO
         IEjercicioDAO ejercicioDAO = new EjercicioDAO();
@@ -53,15 +53,15 @@ public class PruebasEjercicios {
         Ejercicio ejercicioEncontrado = ejercicioDAO.obtenerEjercicioNombre("Caminata");
         
         // crear el ejercicio con los dias de entrenamiento
-        EjercicioDiario ejercicioLunes = new EjercicioDiario(
-                ejercicioEncontrado,  
-                false, 
-                rutinaEncontrada.get(2));
+//        EjercicioDiario ejercicioLunes = new EjercicioDiario(
+//                ejercicioEncontrado,  
+//                false, 
+//                rutinaEncontrada.get(2));
         
         // persistencia del ejercicio con dia
-        IEjercicioDiarioDAO ejercicioDiaDAO = new EjercicioDiarioDAO();
+//        IEjercicioDiarioDAO ejercicioDiaDAO = new EjercicioDiarioDAO();
         
-        ejercicioDiaDAO.crear(ejercicioLunes);
+//        ejercicioDiaDAO.crear(ejercicioLunes);
         
         
     }

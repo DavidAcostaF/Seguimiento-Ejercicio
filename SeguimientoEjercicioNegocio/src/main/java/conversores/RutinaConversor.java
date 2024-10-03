@@ -49,8 +49,9 @@ public class RutinaConversor implements IConversor<Rutina, RutinaDTO> {
         
         // Crea la entidad utilizando los valores del DTO
         return new Rutina(
+            dto.id(),
             conversorUsuario.DTOAEntidad(dto.usuario()),
-                conversorDia.DTOAEntidad(dto.dia())
+            conversorDia.DTOAEntidad(dto.dia())
         );
     }
 }

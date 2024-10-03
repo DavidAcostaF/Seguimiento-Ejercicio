@@ -4,8 +4,10 @@
  */
 package negocio;
 
+import conversores.EjercicioDiarioConversor;
 import daos.EjercicioDiarioDAO;
 import daos.IEjercicioDiarioDAO;
+import dtos.EjercicioDiarioDTO;
 
 /**
  *
@@ -13,14 +15,15 @@ import daos.IEjercicioDiarioDAO;
  */
 public class EjercicioDiarioBO implements IEjercicioDiarioBO{
     private IEjercicioDiarioDAO ejercicioDiarioDAO;
-//    private UsuarioConversor conversor;
+    private EjercicioDiarioConversor conversor;
+    
     public EjercicioDiarioBO() {
         this.ejercicioDiarioDAO = new EjercicioDiarioDAO();
-//        conversor = new UsuarioConversor();
+        conversor = new EjercicioDiarioConversor();
     }
     @Override
-    public void crearEjercicioDiario() {
-        
+    public void crearEjercicioDiario(EjercicioDiarioDTO ejercicioDiario) {
+        ejercicioDiarioDAO.crear(conversor.DTOAEntidad(ejercicioDiario));
     }
     
 }
