@@ -26,8 +26,8 @@ public class EjercicioConversor implements IConversor<Ejercicio, EjercicioDTO> {
             entidad.getId(),
             entidad.getNombre(),
             entidad.getTipo(),
-            entidad.getDuracion(),
-            conversorUsuario.EntidadADTO(entidad.getUsuario()) // Obtenemos el id del usuario
+            entidad.getDuracion()
+//            conversorUsuario.EntidadADTO(entidad.getUsuario()) // Obtenemos el id del usuario
         );
     }
 
@@ -36,13 +36,12 @@ public class EjercicioConversor implements IConversor<Ejercicio, EjercicioDTO> {
         if (dto == null) {
             return null; // Manejo de caso nulo
         }
-        System.out.println(dto.usuario()+"vamos viendo");
         return new Ejercicio(
             dto.id(),
             dto.nombre(),
             dto.tipo(),
-            dto.duracion(),
-            conversorUsuario.DTOAEntidad(dto.usuario())// Asignamos el usuario a la entidad
+            dto.duracion()
+//            conversorUsuario.DTOAEntidad(dto.usuario())// Asignamos el usuario a la entidad
         );
     }
 }

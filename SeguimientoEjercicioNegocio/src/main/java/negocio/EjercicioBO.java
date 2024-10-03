@@ -30,13 +30,14 @@ public class EjercicioBO implements IEjercicioBO {
 
     @Override
     public EjercicioDTO crearEjercicio(EjercicioDTO ejercicioDTO) {
-        System.out.println(ejercicioDTO.usuario());
+//        System.out.println(ejercicioDTO.usuario());
         return conversor.EntidadADTO(ejercicioDAO.crear(conversor.DTOAEntidad(ejercicioDTO)));
     }
 
     @Override
     public List<EjercicioDTO> listaEjercicios() {
-        List<Ejercicio> listaEjercicios = ejercicioDAO.lista();
+//        ejercicioDAO.lista()
+        List<Ejercicio> listaEjercicios = null;
         List<EjercicioDTO> listaEjerciciosDTO = new ArrayList<>();
         for (Ejercicio ejercicio : listaEjercicios) {
             listaEjerciciosDTO.add(conversor.EntidadADTO(ejercicio));
