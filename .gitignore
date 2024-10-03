@@ -69,3 +69,6 @@ lib/
 
 # Metadata de Git
 **/.git/
+
+# Evitar subir persistence.xml
+persistence.xml
