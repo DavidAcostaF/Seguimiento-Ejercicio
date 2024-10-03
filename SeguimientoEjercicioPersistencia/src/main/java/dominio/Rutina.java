@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 /**
  * Clase que representa una rutina de un plan de entrenamiento
- *  @author David Acosta
+ * @author David Acosta
  */
 @Entity
 @Table(name = "rutinas")  // Mapea la clase a una tabla llamada "rutinas"
@@ -32,9 +32,10 @@ public class Rutina implements Serializable {
     @JoinColumn(name = "usuarios_id", nullable = false)  // Nueva relación
     private Usuario usuario;  // Nuevo atributo que referencia al usuario
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "dia_id", nullable = false)
     private Dia dia;
+    
     // Constructor vacío requerido por JPA
     public Rutina() {
     }

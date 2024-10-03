@@ -14,6 +14,7 @@ import dominio.Ejercicio;
 import dominio.EjercicioDiario;
 import dominio.Rutina;
 import dominio.Usuario;
+import java.util.List;
 
 /**
  *
@@ -34,35 +35,33 @@ public class PruebasEjercicios {
         
         // Obtener rutina del usuario
         IRutinaDAO rutinaDAO = new RutinaDAO();
-        Rutina rutinaEncontrada = rutinaDAO.obtenerRutinaUsuario(usuarioEncontrado);
+        List<Rutina> rutinaEncontrada = rutinaDAO.obtenerRutinaUsuario(usuarioEncontrado);
         
         // Crear conexion con DAO
         IEjercicioDAO ejercicioDAO = new EjercicioDAO();
-        
-        // crear ejercicio base
-        Ejercicio ejercicioBase = new Ejercicio(
-                "Caminata", 
-                "Cardio", 
-                15.00f);
-        
-        // se crea la persistencia del ejercicio base
+//        
+//        // crear ejercicio base
+//        Ejercicio ejercicioBase = new Ejercicio(
+//                "Caminata", 
+//                "Cardio", 
+//                15.00f);
+//        
+//        // se crea la persistencia del ejercicio base
 //        ejercicioDAO.crear(ejercicioBase);
         
         // se obtiene el ejercicio base
         Ejercicio ejercicioEncontrado = ejercicioDAO.obtenerEjercicioNombre("Caminata");
         
         // crear el ejercicio con los dias de entrenamiento
-        Dia lunes = new Dia(DiaSemana.LUNES);
-//        EjercicioDiario ejercicioLunes = new EjercicioDiario(
-//                ejercicioEncontrado, 
-//                lunes, 
-//                false, 
-//                rutinaEncontrada);
-//        
-//        // persistencia del ejercicio con dia
-//        IEjercicioDiarioDAO ejercicioDiaDAO = new EjercicioDiarioDAO();
-//        
-//        ejercicioDiaDAO.crear(ejercicioLunes);
+        EjercicioDiario ejercicioLunes = new EjercicioDiario(
+                ejercicioEncontrado,  
+                false, 
+                rutinaEncontrada.get(2));
+        
+        // persistencia del ejercicio con dia
+        IEjercicioDiarioDAO ejercicioDiaDAO = new EjercicioDiarioDAO();
+        
+        ejercicioDiaDAO.crear(ejercicioLunes);
         
         
     }

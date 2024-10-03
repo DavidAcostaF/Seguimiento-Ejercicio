@@ -2,6 +2,7 @@ package daos;
 
 import dominio.Rutina;
 import dominio.Usuario;
+import java.util.List;
 
 /**
  *
@@ -11,6 +12,6 @@ public interface IRutinaDAO {
     
     public Rutina crearRutina(Rutina rutina);
     
-    public Rutina obtenerRutinaUsuario(Usuario usuario);
+    public List<Rutina> obtenerRutinaUsuario(Usuario usuario);
     
 }
