@@ -26,9 +26,6 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
     @JoinColumn(name = "ejercicio_id", nullable = false)
     private Ejercicio ejercicio;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "dia_id", nullable = false)
-    private Dia dia;
     
     @Column(name = "completado", nullable = false)
     private boolean completado;
@@ -42,16 +39,14 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
 
     // Constructor, getters y setters
 
-    public EjercicioDiario(Ejercicio ejercicio, Dia dia, boolean completado, Rutina rutina) {
+    public EjercicioDiario(Ejercicio ejercicio, boolean completado, Rutina rutina) {
         this.ejercicio = ejercicio;
-        this.dia = dia;
         this.completado = completado;
         this.rutina = rutina;
     }
     
-    public EjercicioDiario(Ejercicio ejercicio, Dia dia, boolean completado) {
+    public EjercicioDiario(Ejercicio ejercicio, boolean completado) {
         this.ejercicio = ejercicio;
-        this.dia = dia;
         this.completado = completado;
     }
 
@@ -72,13 +67,6 @@ public class EjercicioDiario implements Serializable{  // Cambiado de Ejercicio 
         this.ejercicio = ejercicio;
     }
 
-    public Dia getDia() {
-        return dia;
-    }
-
-    public void setDia(Dia dia) {
-        this.dia = dia;
-    }
 
     public boolean isCompletado() {
         return completado;

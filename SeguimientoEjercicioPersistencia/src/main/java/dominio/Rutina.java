@@ -31,7 +31,10 @@ public class Rutina implements Serializable {
     @ManyToOne
     @JoinColumn(name = "usuarios_id", nullable = false)  // Nueva relación
     private Usuario usuario;  // Nuevo atributo que referencia al usuario
-
+    
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "dia_id", nullable = false)
+    private Dia dia;
     // Constructor vacío requerido por JPA
     public Rutina() {
     }
@@ -58,6 +61,13 @@ public class Rutina implements Serializable {
         this.id = id;
     }
 
+    public Dia getDia() {
+        return dia;
+    }
+
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
     public List<EjercicioDiario> getEjerciciosDiarios() {
         return ejerciciosDiarios;
     }
