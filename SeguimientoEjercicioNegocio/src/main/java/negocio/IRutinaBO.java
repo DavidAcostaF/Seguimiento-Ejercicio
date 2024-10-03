@@ -4,10 +4,12 @@
  */
 package negocio;
 
+import dtos.RutinaDTO;
+
 /**
  *
  * @author af_da
  */
 public interface IRutinaBO {
-    
+    void crearRutina(RutinaDTO rutina);
 }
