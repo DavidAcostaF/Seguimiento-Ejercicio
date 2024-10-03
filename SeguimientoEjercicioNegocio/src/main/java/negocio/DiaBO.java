@@ -36,4 +36,9 @@ public class DiaBO implements IDiaBO {
         return diasDTO;
     }
 
+    @Override
+    public void setDias() {
+        diaDAO.seedDias();
+    }
+
 }
