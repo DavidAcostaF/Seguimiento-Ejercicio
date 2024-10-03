@@ -8,11 +8,11 @@ import dtos.EjercicioDiarioDTO;
  */
 public class EjercicioDiarioConversor implements IConversor<EjercicioDiario, EjercicioDiarioDTO> {
     private EjercicioConversor conversorEjercicio;
-    private RutinaConversor conversorRutina;
+//    private RutinaConversor conversorRutina;
     
     public EjercicioDiarioConversor() {
         conversorEjercicio = new EjercicioConversor();
-        conversorRutina = new RutinaConversor();
+//        conversorRutina = new RutinaConversor();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class EjercicioDiarioConversor implements IConversor<EjercicioDiario, Eje
             entidad.getId(),
             conversorEjercicio.EntidadADTO(entidad.getEjercicio()), 
             entidad.isCompletado(),
-            conversorRutina.EntidadADTO(entidad.getRutina())
+            null
         );
     }
 
@@ -38,7 +38,7 @@ public class EjercicioDiarioConversor implements IConversor<EjercicioDiario, Eje
         return new EjercicioDiario(
             conversorEjercicio.DTOAEntidad(dto.ejercicio()),
             dto.completado(),
-            conversorRutina.DTOAEntidad(dto.rutina())
+            null
         );
     }
 }

@@ -26,21 +26,34 @@ public class RutinaDAO implements IRutinaDAO{
         entityManager.refresh(rutina);
         entityManager.close();
         return rutina;
-        
+
     }
 
-        @Override
-        public Rutina obtenerRutinaUsuarioDia(Usuario usuario, int dia) {
-            EntityManager entityManager = conexion.obtenerConexion();
+    @Override
+    public Rutina obtenerRutinaUsuarioDia(Usuario usuario, int dia) {
+        EntityManager entityManager = conexion.obtenerConexion();
 
-            Rutina rutinaEncontradas = entityManager.createQuery(
-                    "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario AND r.dia.id = :dia_id", Rutina.class)
-                    .setParameter("id_usuario", usuario.getId())
-                    .setParameter("dia_id", dia)  
-                    .getSingleResult();
+        Rutina rutinaEncontradas = entityManager.createQuery(
+                "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario AND r.dia.id = :dia_id", Rutina.class)
+                .setParameter("id_usuario", usuario.getId())
+                .setParameter("dia_id", dia)
+                .getSingleResult();
 
-            return rutinaEncontradas;
-        }
+        return rutinaEncontradas;
+    }
+
+    @Override
+    public List<Rutina> obtenerRutinas(Usuario usuario) {
+        EntityManager entityManager = conexion.obtenerConexion();
+
+        List<Rutina> rutinaEncontradas = entityManager.createQuery(
+                "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario", Rutina.class)
+                .setParameter("id_usuario", usuario.getId()).getResultList();
+
+        return rutinaEncontradas;
+    }
+    
+    
 
 
 }

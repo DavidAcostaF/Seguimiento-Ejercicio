@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package negocio;
 
 import dominio.Usuario;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import java.util.List;
 
 /**
  *
@@ -15,4 +12,5 @@ import dtos.UsuarioDTO;
 public interface IRutinaBO {
     void crearRutina(RutinaDTO rutina);
     RutinaDTO obtenerRutina(UsuarioDTO usuario,int dia);
+    List<RutinaDTO> obtenerRutinas(UsuarioDTO usuario);
 }

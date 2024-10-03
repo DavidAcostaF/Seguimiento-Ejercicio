@@ -11,9 +11,12 @@ import daos.EjercicioDAO;
 import daos.IEjercicioDAO;
 import daos.IRutinaDAO;
 import daos.RutinaDAO;
+import dominio.Rutina;
 import dominio.Usuario;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -38,5 +41,20 @@ public class RutinaBO implements IRutinaBO{
     public RutinaDTO obtenerRutina(UsuarioDTO usuario,int dia) {
         return conversor.EntidadADTO( rutinaDAO.obtenerRutinaUsuarioDia(conversorUsuario.DTOAEntidad(usuario), dia));
     }
-    
+
+    @Override
+    public List<RutinaDTO> obtenerRutinas(UsuarioDTO usuario) {
+        List<Rutina> rutinasObtenidas = rutinaDAO.obtenerRutinas(conversorUsuario.DTOAEntidad(usuario));
+        System.out.println(rutinasObtenidas);
+        List<RutinaDTO> rutinasEncontradas = new ArrayList<>();
+        if (rutinasObtenidas != null) {
+            for (Rutina rObt : rutinasObtenidas) {
+                System.out.println(rObt);
+                rutinasEncontradas.add(conversor.EntidadADTO(rObt));
+            }
+        }
+        return rutinasEncontradas;
+
+    }
+
 }

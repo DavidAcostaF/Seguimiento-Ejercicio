@@ -1,5 +1,6 @@
 package conversores;
 
+import dominio.EjercicioDiario;
 import dominio.Rutina;
 import dtos.EjercicioDiarioDTO;
 import dtos.RutinaDTO;
@@ -17,7 +18,7 @@ public class RutinaConversor implements IConversor<Rutina, RutinaDTO> {
     // Constructor que inicializa los conversores
     public RutinaConversor() {
         this.conversorDia = new DiaConversor();
-//        this.conversorEjercicioDiarios = new EjercicioDiarioConversor();
+        this.conversorEjercicioDiarios = new EjercicioDiarioConversor();
         this.conversorUsuario = new UsuarioConversor();
     }
     
@@ -26,18 +27,18 @@ public class RutinaConversor implements IConversor<Rutina, RutinaDTO> {
         if (entidad == null) {
             return null; // Retorna null si la entidad es null
         }
-        
-    // Convierte la lista de ejercicios diarios de la entidad a una lista de DTOs
-//        List<EjercicioDiarioDTO> ejerciciosDiariosDTO = entidad.getEjerciciosDiarios().stream()
-//            .map(conversorEjercicioDiarios::EntidadADTO) // Usa el conversor para cada EjercicioDiario
-//            .collect(Collectors.toList()); // Recolecta el resultado en una lista
+
+        // Convierte la lista de ejercicios diarios de la entidad a una lista de DTOs
+        List<EjercicioDiarioDTO> ejerciciosDiariosDTO = entidad.getEjerciciosDiarios().stream()
+                .map(conversorEjercicioDiarios::EntidadADTO) // Usa el conversor para cada EjercicioDiario
+                .collect(Collectors.toList()); // Recolecta el resultado en una lista
 
         // Crea el DTO utilizando los valores de la entidad
         return new RutinaDTO(
-            entidad.getId(),
-            null, // Lista de EjercicioDiarioDTO
-            conversorUsuario.EntidadADTO(entidad.getUsuario()), // Conversión del Usuario
-            conversorDia.EntidadADTO(entidad.getDia()) // Conversión del Dia (suponiendo que se quiere agregar también)
+                entidad.getId(),
+                ejerciciosDiariosDTO, // Lista de EjercicioDiarioDTO
+                conversorUsuario.EntidadADTO(entidad.getUsuario()), // Conversión del Usuario
+                conversorDia.EntidadADTO(entidad.getDia()) // Conversión del Dia
         );
     }
 
