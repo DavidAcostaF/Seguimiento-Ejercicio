@@ -40,6 +40,10 @@ public class Rutina implements Serializable {
     public Rutina() {
     }
 
+    public Rutina(Long id) {
+        this.id = id;
+    }
+
     public Rutina(Usuario usuario) {
         this.usuario = usuario;
     }

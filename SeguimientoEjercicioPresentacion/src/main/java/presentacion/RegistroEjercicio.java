@@ -258,6 +258,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
             ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
         }
         Menu menu = new Menu();
+        menu.llenarTabla(null);
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed

@@ -1,7 +1,9 @@
 package conversores;
 
 import dominio.EjercicioDiario;
+import dominio.Rutina;
 import dtos.EjercicioDiarioDTO;
+import dtos.RutinaDTO;
 
 /**
  * Clase que convierte entre la entidad EjercicioDiario y el DTO EjercicioDiarioDTO.
@@ -25,7 +27,10 @@ public class EjercicioDiarioConversor implements IConversor<EjercicioDiario, Eje
             entidad.getId(),
             conversorEjercicio.EntidadADTO(entidad.getEjercicio()), 
             entidad.isCompletado(),
-            null
+            new RutinaDTO(entidad.getRutina().getId(),
+                    null,
+                    null,
+                    null)
         );
     }
 
@@ -38,7 +43,7 @@ public class EjercicioDiarioConversor implements IConversor<EjercicioDiario, Eje
         return new EjercicioDiario(
             conversorEjercicio.DTOAEntidad(dto.ejercicio()),
             dto.completado(),
-            null
+            new Rutina(dto.rutina().id())
         );
     }
 }

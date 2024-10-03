@@ -49,7 +49,6 @@ public class RutinaBO implements IRutinaBO{
         List<RutinaDTO> rutinasEncontradas = new ArrayList<>();
         if (rutinasObtenidas != null) {
             for (Rutina rObt : rutinasObtenidas) {
-                System.out.println(rObt);
                 rutinasEncontradas.add(conversor.EntidadADTO(rObt));
             }
         }

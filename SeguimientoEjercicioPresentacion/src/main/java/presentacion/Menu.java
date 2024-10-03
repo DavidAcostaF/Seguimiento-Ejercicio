@@ -1,17 +1,39 @@
 package presentacion;
 
+import dtos.EjercicioDiarioDTO;
+import dtos.RutinaDTO;
+import dtos.UsuarioDTO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import negocio.IRutinaBO;
+import negocio.IUsuarioBO;
+import negocio.RutinaBO;
+import negocio.UsuariosBO;
+
 /**
  *
  * @author af_da
  */
 public class Menu extends javax.swing.JFrame {
+    
+    private IRutinaBO rNegocio;
+    private IUsuarioBO uNegocio;
+    private DefaultTableModel modeloTabla;
+    private UsuarioDTO usuario;
+    private String[] dias = {"TODOS", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
 
     /**
      * Creates new form Menu
      */
     public Menu() {
         initComponents();
-        System.out.println(SeguimientoEjercicioPresentacion.USUARIO);
+        rNegocio = new RutinaBO();
+        uNegocio = new UsuariosBO();
+        this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
+        modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
+        tablaEjercicios.setModel(modeloTabla); // Asigna el modelo a la tabla
+        llenarComboBoxDias(); // Llenar el JComboBox
+        llenarTabla(null); // Llenar la tabla al iniciar
     }
 
     /**
@@ -54,9 +76,16 @@ public class Menu extends javax.swing.JFrame {
                 "Dia", "Ejercicio", "Tipo", "Tiempo", "Estado"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -67,8 +96,6 @@ public class Menu extends javax.swing.JFrame {
         btnEliminarEjercicio.setText("Eliminar Ejercicio");
 
         jLabel1.setText("Filtrar por dia");
-
-        cbxFiltroDias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,6 +137,43 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void llenarComboBoxDias() {
+        for (String dia : dias) {
+            cbxFiltroDias.addItem(dia);
+        }
+        
+        cbxFiltroDias.addActionListener(evt -> {
+            String diaSeleccionado = (String) cbxFiltroDias.getSelectedItem();
+            if ("TODOS".equals(diaSeleccionado)) {
+                llenarTabla(null); // Mostrar todos los ejercicios
+            } else {
+                llenarTabla(diaSeleccionado); // Filtrar por el día seleccionado
+            }
+        });
+    }
+    
+    public void llenarTabla(String diaFiltro) {
+        List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
+        modeloTabla.setRowCount(0); // Limpia la tabla
+
+        for (RutinaDTO rutina : rutinas) {
+            if (diaFiltro == null || rutina.dia().nombre().equals(diaFiltro)) {
+                for (EjercicioDiarioDTO ejercicio : rutina.ejerciciosDiarios()) {
+                    Object[] fila = new Object[]{
+                        rutina.dia().nombre(),
+                        ejercicio.ejercicio().nombre(),
+                        ejercicio.ejercicio().tipo(),
+                        ejercicio.ejercicio().duracion(),
+                        ejercicio.completado() ? "Completado" : "No completado"
+                    };
+                    modeloTabla.addRow(fila);
+                }
+            }
+        }
+
+        modeloTabla.fireTableDataChanged();
+    }
+    
     private void btnAgregarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjercicioActionPerformed
         RegistroEjercicio registroEjercicio = new RegistroEjercicio();
         registroEjercicio.setVisible(true);
