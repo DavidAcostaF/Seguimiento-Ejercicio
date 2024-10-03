@@ -56,4 +56,9 @@ public class DiaBO implements IDiaBO {
         return diasSemana.getOrDefault(dia, -1);
     }
 
+    @Override
+    public void setDias() {
+        diaDAO.seedDias();
+    }
+
 }

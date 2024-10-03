@@ -14,4 +14,5 @@ import java.util.List;
 public interface IDiaBO {
     List<DiaDTO> obtenerDias();
     int obtenerNumeroDia(String dia);
+    public void setDias();
 }
