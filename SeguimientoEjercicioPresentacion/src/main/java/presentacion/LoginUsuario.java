@@ -47,7 +47,7 @@ public class LoginUsuario extends javax.swing.JFrame {
 
         jLabel2.setText("Contraseña:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
-        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 200, -1));
+        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 230, -1));
 
         btnRegistro.setText("Registro");
         btnRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -56,10 +56,10 @@ public class LoginUsuario extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
-        getContentPane().add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 200, -1));
+        getContentPane().add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 230, -1));
 
         jLabel3.setText("FITNESS APP");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
         btnIngresar.setText("Ingresar");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {

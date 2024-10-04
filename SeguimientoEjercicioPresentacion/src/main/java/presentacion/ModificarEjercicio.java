@@ -45,42 +45,44 @@ public class ModificarEjercicio extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        cbxEjercicios = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Nombre:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        jLabel2.setText("Modificar Ejercicio");
+        jLabel2.setText("Modificar Ejercicios");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
 
         jLabel3.setText("Tipo:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         jLabel4.setText("Duración:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 240, -1));
-        getContentPane().add(txtTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 240, -1));
-        getContentPane().add(txtDuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 240, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 240, -1));
+        getContentPane().add(txtTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 240, -1));
+        getContentPane().add(txtDuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 240, -1));
 
         checkLunes.setText("Lunes");
-        getContentPane().add(checkLunes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
+        getContentPane().add(checkLunes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
 
         checkMartes.setText("Martes");
-        getContentPane().add(checkMartes, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 180, -1, -1));
+        getContentPane().add(checkMartes, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, -1));
 
         checkMiercoles.setText("Miercoles");
-        getContentPane().add(checkMiercoles, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, -1, -1));
+        getContentPane().add(checkMiercoles, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, -1, -1));
 
         checkJueves.setText("Jueves");
-        getContentPane().add(checkJueves, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, -1, -1));
+        getContentPane().add(checkJueves, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, -1, -1));
 
         checkViernes.setText("Viernes");
-        getContentPane().add(checkViernes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
+        getContentPane().add(checkViernes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, -1, -1));
 
         checkSabado.setText("Sabado");
-        getContentPane().add(checkSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, -1));
+        getContentPane().add(checkSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, -1, -1));
 
         checkDomingo.setText("Domingo");
         checkDomingo.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +90,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 checkDomingoActionPerformed(evt);
             }
         });
-        getContentPane().add(checkDomingo, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 272, -1, -1));
+        getContentPane().add(checkDomingo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, -1, -1));
 
         btEliminar.setText("Eliminar");
         btEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +98,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 btEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 310, -1, -1));
+        getContentPane().add(btEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 370, -1, -1));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -104,10 +106,10 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, -1));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, -1, -1));
 
         jLabel5.setText("Dias de ejercicio");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,10 +119,10 @@ public class ModificarEjercicio extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 40, 360));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 40, 420));
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +130,12 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, -1, -1));
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, -1, -1));
+
+        jLabel6.setText("Seleccionar el ejercicio a modificar o eliminar");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, -1, -1));
+
+        getContentPane().add(cbxEjercicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 170, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -155,6 +162,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     private javax.swing.JButton btEliminar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> cbxEjercicios;
     private javax.swing.JCheckBox checkDomingo;
     private javax.swing.JCheckBox checkJueves;
     private javax.swing.JCheckBox checkLunes;
@@ -167,6 +175,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtDuracion;
     private javax.swing.JTextField txtNombre;

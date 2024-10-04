@@ -3,7 +3,9 @@ package presentacion;
 import dtos.EjercicioDiarioDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import negocio.IRutinaBO;
 import negocio.IUsuarioBO;
@@ -27,16 +29,27 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        iniciarComponentes();
+    }
+    
+    private void iniciarComponentes() {
         rNegocio = new RutinaBO();
         uNegocio = new UsuariosBO();
         this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
+
         modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
-        modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"},0);
-        tablaEjercicios.setModel(modeloTabla); // Asigna el modelo a la tabla
+        modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"}, 0);
+
+        tablaEjercicios.setModel(modeloTabla); 
+        tblResumen.setModel(modeloTablaResumen); 
+
         txtNombreUsuario.setText(usuario.nomUsuario());
         txtNombreUsuario.setEditable(false);
-        llenarComboBoxDias(); // Llenar el JComboBox
-        llenarTabla(null); // Llenar la tabla al iniciar
+
+        llenarComboBoxDias(); 
+        llenarTabla(null); 
+        llenarTablaResumen(); 
+
     }
 
     /**
@@ -211,9 +224,9 @@ public class Menu extends javax.swing.JFrame {
         cbxFiltroDias.addActionListener(evt -> {
             String diaSeleccionado = (String) cbxFiltroDias.getSelectedItem();
             if ("TODOS".equals(diaSeleccionado)) {
-                llenarTabla(null); // Mostrar todos los ejercicios
+                llenarTabla(null); 
             } else {
-                llenarTabla(diaSeleccionado); // Filtrar por el día seleccionado
+                llenarTabla(diaSeleccionado);
             }
         });
     }
@@ -242,22 +255,52 @@ public class Menu extends javax.swing.JFrame {
     
     public void llenarTablaResumen() {
         List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
-        modeloTabla.setRowCount(0); // Limpia la tabla
+        modeloTablaResumen.setRowCount(0);
 
+        Map<String, Integer> ejerciciosCompletos = new HashMap<>();
+        Map<String, Integer> ejerciciosPendientes = new HashMap<>();
+        Map<String, Integer> totalEjercicios = new HashMap<>();
+
+        // Inicializar los mapas
         for (RutinaDTO rutina : rutinas) {
-                for (EjercicioDiarioDTO ejercicio : rutina.ejerciciosDiarios()) {
-                    Object[] fila = new Object[]{
-                        rutina.dia().nombre(),
-                        ejercicio.ejercicio().nombre(),
-                        ejercicio.ejercicio().tipo(),
-                        ejercicio.ejercicio().duracion(),
-                        ejercicio.completado() ? "Completado" : "No completado"
-                    };
-                    modeloTabla.addRow(fila);
+            String dia = rutina.dia().nombre();
+            totalEjercicios.put(dia, 0);
+            ejerciciosCompletos.put(dia, 0);
+            ejerciciosPendientes.put(dia, 0);
+
+            // Contar ejercicios por día
+            for (EjercicioDiarioDTO ejercicio : rutina.ejerciciosDiarios()) {
+                totalEjercicios.put(dia, totalEjercicios.get(dia) + 1);
+                if (ejercicio.completado()) {
+                    ejerciciosCompletos.put(dia, ejerciciosCompletos.get(dia) + 1);
+                } else {
+                    ejerciciosPendientes.put(dia, ejerciciosPendientes.get(dia) + 1);
                 }
+            }
         }
 
-        modeloTabla.fireTableDataChanged();
+        String[] diasOrdenados = {"LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
+
+        // Llenar la tabla resumen
+        for (String dia : diasOrdenados) {
+            if (totalEjercicios.containsKey(dia)) {
+                int total = totalEjercicios.get(dia);
+                int completos = ejerciciosCompletos.get(dia);
+                int pendientes = ejerciciosPendientes.get(dia);
+                double porcentaje = total > 0 ? (completos * 100.0) / total : 0;
+
+                Object[] fila = new Object[]{
+                    dia,
+                    completos,
+                    pendientes,
+                    total,
+                    String.format("%.2f%%", porcentaje) // Formatea el porcentaje
+                };
+                modeloTablaResumen.addRow(fila);
+            }
+        }
+
+        modeloTablaResumen.fireTableDataChanged();
     }
     
     private void btnAgregarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjercicioActionPerformed
