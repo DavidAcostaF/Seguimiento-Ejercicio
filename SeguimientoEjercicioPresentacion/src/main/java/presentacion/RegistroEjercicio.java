@@ -144,6 +144,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 40, 360));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void checkDomingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkDomingoActionPerformed

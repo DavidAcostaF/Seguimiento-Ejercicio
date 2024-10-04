@@ -115,6 +115,11 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().add(btnAgregarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 129, -1));
 
         btnModificarEjercicio.setText("Modificar Ejercicio");
+        btnModificarEjercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarEjercicioActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnModificarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         tablaEjercicios.setModel(new javax.swing.table.DefaultTableModel(
@@ -214,6 +219,7 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 130, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void llenarComboBoxDias() {
@@ -312,6 +318,13 @@ public class Menu extends javax.swing.JFrame {
     private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreUsuarioActionPerformed
+
+    private void btnModificarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEjercicioActionPerformed
+        // TODO add your handling code here:
+        ModificarEjercicio me = new ModificarEjercicio();
+        me.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnModificarEjercicioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
