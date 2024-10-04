@@ -4,39 +4,17 @@
  */
 package presentacion;
 
-import dtos.EjercicioDTO;
-import dtos.EjercicioDiarioDTO;
-import dtos.RutinaDTO;
-import dtos.UsuarioDTO;
-import negocio.DiaBO;
-import negocio.EjercicioBO;
-import negocio.EjercicioDiarioBO;
-import negocio.IDiaBO;
-import negocio.IEjercicioBO;
-import negocio.IEjercicioDiarioBO;
-import negocio.IRutinaBO;
-import negocio.RutinaBO;
-
 /**
  *
- * @author af_da
+ * @author alex_
  */
-public class RegistroEjercicio extends javax.swing.JFrame {
-    private IEjercicioBO ejercicioBO;
-    private IRutinaBO rutinaBO;
-    private IEjercicioDiarioBO ejercicioDiarioBO;
-    private IDiaBO diaBO;
-    private UsuarioDTO usuario = SeguimientoEjercicioPresentacion.USUARIO;
+public class ModificarEjercicio extends javax.swing.JFrame {
 
     /**
-     * Creates new form RegistroEjercicio
+     * Creates new form ModificarEjercicio
      */
-    public RegistroEjercicio() {
+    public ModificarEjercicio() {
         initComponents();
-        ejercicioBO = new EjercicioBO();    
-        rutinaBO = new RutinaBO();
-        diaBO = new DiaBO();
-        ejercicioDiarioBO = new EjercicioDiarioBO();
     }
 
     /**
@@ -62,10 +40,11 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         checkViernes = new javax.swing.JCheckBox();
         checkSabado = new javax.swing.JCheckBox();
         checkDomingo = new javax.swing.JCheckBox();
-        btnCrear = new javax.swing.JButton();
+        btEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -73,7 +52,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         jLabel1.setText("Nombre:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
-        jLabel2.setText("Crear ejercicio");
+        jLabel2.setText("Modificar Ejercicio");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
 
         jLabel3.setText("Tipo:");
@@ -111,13 +90,13 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         });
         getContentPane().add(checkDomingo, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 272, -1, -1));
 
-        btnCrear.setText("Crear");
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+        btEliminar.setText("Eliminar");
+        btEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
+                btEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, -1, -1));
+        getContentPane().add(btEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 310, -1, -1));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -125,7 +104,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, -1, -1));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, -1));
 
         jLabel5.setText("Dias de ejercicio");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
@@ -143,6 +122,14 @@ public class RegistroEjercicio extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 40, 360));
 
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,88 +137,24 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkDomingoActionPerformed
 
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        EjercicioDTO ejercicioCreado = this.crearEjercicio();
+    private void btEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEliminarActionPerformed
         
-        boolean lunesSeleccionado = checkLunes.isSelected();
-        boolean martesSeleccionado = checkMartes.isSelected();
-        boolean miercolesSeleccionado = checkMiercoles.isSelected();
-        boolean juevesSeleccionado = checkJueves.isSelected();
-        boolean viernesSeleccionado = checkViernes.isSelected();
-        boolean sabadoSeleccionado = checkSabado.isSelected();
-        boolean domingoSeleccionado = checkDomingo.isSelected();
-        
-        System.out.println(ejercicioCreado);
-        
-        // Lunes
-        if (checkLunes.isSelected()) {
-            RutinaDTO rutinaDtoLunes = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Lunes"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoLunes);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-
-        // Martes
-        if (checkMartes.isSelected()) {
-            RutinaDTO rutinaDtoMartes = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Martes"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoMartes);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-
-        // Miércoles
-        if (checkMiercoles.isSelected()) {
-            RutinaDTO rutinaDtoMiercoles = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Miércoles"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoMiercoles);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-
-        // Jueves
-        if (checkJueves.isSelected()) {
-            RutinaDTO rutinaDtoJueves = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Jueves"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoJueves);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-
-        // Viernes
-        if (checkViernes.isSelected()) {
-            RutinaDTO rutinaDtoViernes = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Viernes"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoViernes);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-
-        // Sábado
-        if (checkSabado.isSelected()) {
-            RutinaDTO rutinaDtoSabado = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Sábado"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoSabado);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-
-        // Domingo
-        if (checkDomingo.isSelected()) {
-            RutinaDTO rutinaDtoDomingo = rutinaBO.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Domingo"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoDomingo);
-            ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-        Menu menu = new Menu();
-        menu.llenarTabla(null);
-        menu.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCrearActionPerformed
+    }//GEN-LAST:event_btEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     
-    private EjercicioDTO crearEjercicio(){
-        String nombre = txtNombre.getText();
-        String tipo = txtTipo.getText();
-        String duracion = txtDuracion.getText();
-        EjercicioDTO ejercicioDTO = new EjercicioDTO(-1L, nombre, tipo, Float.parseFloat(duracion));
-        return ejercicioBO.crearEjercicio(ejercicioDTO);
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btEliminar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JCheckBox checkDomingo;
     private javax.swing.JCheckBox checkJueves;
     private javax.swing.JCheckBox checkLunes;

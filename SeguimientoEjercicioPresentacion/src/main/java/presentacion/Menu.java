@@ -18,7 +18,7 @@ public class Menu extends javax.swing.JFrame {
     
     private IRutinaBO rNegocio;
     private IUsuarioBO uNegocio;
-    private DefaultTableModel modeloTabla;
+    private DefaultTableModel modeloTabla, modeloTablaResumen;
     private UsuarioDTO usuario;
     private String[] dias = {"TODOS", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
 
@@ -31,7 +31,10 @@ public class Menu extends javax.swing.JFrame {
         uNegocio = new UsuariosBO();
         this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
         modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
+        modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"},0);
         tablaEjercicios.setModel(modeloTabla); // Asigna el modelo a la tabla
+        txtNombreUsuario.setText(usuario.nomUsuario());
+        txtNombreUsuario.setEditable(false);
         llenarComboBoxDias(); // Llenar el JComboBox
         llenarTabla(null); // Llenar la tabla al iniciar
     }
@@ -46,15 +49,49 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         btnAgregarEjercicio = new javax.swing.JButton();
         btnModificarEjercicio = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaEjercicios = new javax.swing.JTable();
-        btnEliminarEjercicio = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         cbxFiltroDias = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblResumen = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtNombreUsuario = new javax.swing.JTextField();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAgregarEjercicio.setText("Agregar Ejercicio");
         btnAgregarEjercicio.addActionListener(new java.awt.event.ActionListener() {
@@ -62,8 +99,10 @@ public class Menu extends javax.swing.JFrame {
                 btnAgregarEjercicioActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAgregarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 129, -1));
 
         btnModificarEjercicio.setText("Modificar Ejercicio");
+        getContentPane().add(btnModificarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         tablaEjercicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,46 +132,73 @@ public class Menu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaEjercicios);
 
-        btnEliminarEjercicio.setText("Eliminar Ejercicio");
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 425, 288));
 
         jLabel1.setText("Filtrar por dia");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel1))
-                    .addComponent(btnModificarEjercicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAgregarEjercicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminarEjercicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxFiltroDias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+        getContentPane().add(cbxFiltroDias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 129, -1));
+
+        tblResumen.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Dia", "Total ejercicios", "Ejercicios completados", "Ejercicios pendientes", "% Completo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tblResumen);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 580, 100));
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Resumen");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 600, -1));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAgregarEjercicio)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModificarEjercicio)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminarEjercicio)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxFiltroDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 30, 480));
+
+        jLabel3.setText("Bienvenido");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
+
+        txtNombreUsuario.setBackground(new java.awt.Color(204, 204, 204));
+        txtNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreUsuarioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 130, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -174,21 +240,53 @@ public class Menu extends javax.swing.JFrame {
         modeloTabla.fireTableDataChanged();
     }
     
+    public void llenarTablaResumen() {
+        List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
+        modeloTabla.setRowCount(0); // Limpia la tabla
+
+        for (RutinaDTO rutina : rutinas) {
+                for (EjercicioDiarioDTO ejercicio : rutina.ejerciciosDiarios()) {
+                    Object[] fila = new Object[]{
+                        rutina.dia().nombre(),
+                        ejercicio.ejercicio().nombre(),
+                        ejercicio.ejercicio().tipo(),
+                        ejercicio.ejercicio().duracion(),
+                        ejercicio.completado() ? "Completado" : "No completado"
+                    };
+                    modeloTabla.addRow(fila);
+                }
+        }
+
+        modeloTabla.fireTableDataChanged();
+    }
+    
     private void btnAgregarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjercicioActionPerformed
         RegistroEjercicio registroEjercicio = new RegistroEjercicio();
         registroEjercicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAgregarEjercicioActionPerformed
 
+    private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreUsuarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarEjercicio;
-    private javax.swing.JButton btnEliminarEjercicio;
     private javax.swing.JButton btnModificarEjercicio;
     private javax.swing.JComboBox<String> cbxFiltroDias;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable tablaEjercicios;
+    private javax.swing.JTable tblResumen;
+    private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }

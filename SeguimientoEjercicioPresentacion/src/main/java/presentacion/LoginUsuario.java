@@ -37,6 +37,7 @@ public class LoginUsuario extends javax.swing.JFrame {
         txtContra = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         btnIngresar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -54,7 +55,7 @@ public class LoginUsuario extends javax.swing.JFrame {
                 btnRegistroActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, -1, -1));
+        getContentPane().add(btnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
         getContentPane().add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 200, -1));
 
         jLabel3.setText("FITNESS APP");
@@ -66,7 +67,8 @@ public class LoginUsuario extends javax.swing.JFrame {
                 btnIngresarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, -1, -1));
+        getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 400, 50));
 
         pack();
         setLocationRelativeTo(null);
@@ -99,6 +101,7 @@ public class LoginUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField txtContra;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
