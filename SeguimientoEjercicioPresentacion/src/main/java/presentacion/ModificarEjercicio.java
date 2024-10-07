@@ -8,6 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import negocio.DiaBO;
+import negocio.EjercicioBO;
+import negocio.EjercicioDiarioBO;
+import negocio.IDiaBO;
+import negocio.IEjercicioBO;
 import negocio.IEjercicioDiarioBO;
 import negocio.IRutinaBO;
 import negocio.IUsuarioBO;
@@ -22,9 +28,11 @@ public class ModificarEjercicio extends javax.swing.JFrame {
 
     private UsuarioDTO usuario;
     private IUsuarioBO uNegocio;
-    private IRutinaBO rNegocio;
+    private IRutinaBO rutinaBO;
     private EjercicioDTO ejercicioSeleccionado;
-    private IEjercicioDiarioBO eNegocio;
+    private IEjercicioDiarioBO ejercicioDiarioBO;
+    private IEjercicioBO ejercicioBO;
+    private IDiaBO diaBO;
     
     /**
      * Creates new form ModificarEjercicio
@@ -37,7 +45,10 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     private void iniciarComponentes(){
         this.uNegocio = new UsuariosBO();
         this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
-        this.rNegocio = new RutinaBO();
+        this.rutinaBO = new RutinaBO();
+        this.ejercicioBO = new EjercicioBO();
+        this.ejercicioDiarioBO = new EjercicioDiarioBO();
+        this.diaBO = new DiaBO();
         obtenerEjerciciosCbx();
         
         cbxEjercicios.addActionListener(new ActionListener() {
@@ -168,7 +179,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void obtenerEjerciciosCbx() {
-        List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
+        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
         List<EjercicioDTO> ejercicios = new ArrayList<>();
 
         for (RutinaDTO r : rutinas) {
@@ -185,7 +196,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     
     private void cargarDatosEjercicio(String nombreEjercicio) {
         // Obtener las rutinas del usuario
-        List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
+        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
 
         // Limpiar los campos de texto antes de cargar nuevos datos
         txtNombre.setText("");
@@ -255,12 +266,12 @@ public class ModificarEjercicio extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
-        System.out.println(this.ejercicioSeleccionado.id());
+        actualizarEjercicioBase();
+        modificarEjerciciosDiarios();
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void actualizarEjercicioBase(){
+    private EjercicioDTO actualizarEjercicioBase(){
         
         String nombreNuevo = txtNombre.getText();
         String tipoNuevo = txtTipo.getText();
@@ -272,8 +283,76 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 tipoNuevo, 
                 duracionNuevo);
         
+        return ejercicioBO.modificarEjercicio(ejModificado);
+        
     }
     
+    private void modificarEjerciciosDiarios() {
+        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
+
+        Map<String, Integer> dias = Map.of(
+                "Lunes", diaBO.obtenerNumeroDia("Lunes"),
+                "Martes", diaBO.obtenerNumeroDia("Martes"),
+                "Miércoles", diaBO.obtenerNumeroDia("Miércoles"),
+                "Jueves", diaBO.obtenerNumeroDia("Jueves"),
+                "Viernes", diaBO.obtenerNumeroDia("Viernes"),
+                "Sábado", diaBO.obtenerNumeroDia("Sábado"),
+                "Domingo", diaBO.obtenerNumeroDia("Domingo")
+        );
+
+        for (Map.Entry<String, Integer> entry : dias.entrySet()) {
+            String dia = entry.getKey();
+            int numeroDia = entry.getValue();
+            boolean checkSeleccionado = false;
+
+            switch (dia) {
+                case "Lunes":
+                    checkSeleccionado = checkLunes.isSelected();
+                    break;
+                case "Martes":
+                    checkSeleccionado = checkMartes.isSelected();
+                    break;
+                case "Miércoles":
+                    checkSeleccionado = checkMiercoles.isSelected();
+                    break;
+                case "Jueves":
+                    checkSeleccionado = checkJueves.isSelected();
+                    break;
+                case "Viernes":
+                    checkSeleccionado = checkViernes.isSelected();
+                    break;
+                case "Sábado":
+                    checkSeleccionado = checkSabado.isSelected();
+                    break;
+                case "Domingo":
+                    checkSeleccionado = checkDomingo.isSelected();
+                    break;
+            }
+
+            RutinaDTO rutinaDto = rutinaBO.obtenerRutina(usuario, numeroDia);
+            boolean ejercicioEncontrado = false;
+
+            // Recorrer los ejercicios diarios de la rutina para verificar existencia
+            for (EjercicioDiarioDTO ejercicioDiario : rutinaDto.ejerciciosDiarios()) {
+                EjercicioDTO ejercicio = ejercicioDiario.ejercicio();
+                if (ejercicio.nombre().equals(ejercicioSeleccionado.nombre())) {
+                    ejercicioEncontrado = true; // El ejercicio ya está registrado
+                    if (!checkSeleccionado) {
+                        // Si el checkbox no está seleccionado, se elimina el ejercicioDiario
+                        ejercicioDiarioBO.eliminarEjercicioDiario(ejercicioDiario.id());
+                    }
+                    break;
+                }
+            }
+
+            if (checkSeleccionado && !ejercicioEncontrado) {
+                // Si el checkbox está seleccionado y no se encontro el ejercicio se crea
+                EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioSeleccionado, false, rutinaDto);
+                ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
+            }
+        }
+    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btEliminar;
