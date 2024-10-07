@@ -45,4 +45,14 @@ public class EjercicioBO implements IEjercicioBO {
         return listaEjerciciosDTO;
     }
 
+    @Override
+    public EjercicioDTO modificarEjercicio(EjercicioDTO ejercicioDTO) {
+        return conversor.EntidadADTO(ejercicioDAO.modificarEjercicio(ejercicioDTO.id(), conversor.DTOAEntidad(ejercicioDTO)));
+    }
+
+    @Override
+    public boolean eliminarEjercicio(Long id) {
+        return ejercicioDAO.eliminarEjercicio(id);
+    }
+
 }

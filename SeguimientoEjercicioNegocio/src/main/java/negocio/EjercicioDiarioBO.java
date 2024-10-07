@@ -25,5 +25,10 @@ public class EjercicioDiarioBO implements IEjercicioDiarioBO{
     public void crearEjercicioDiario(EjercicioDiarioDTO ejercicioDiario) {
         ejercicioDiarioDAO.crear(conversor.DTOAEntidad(ejercicioDiario));
     }
+
+    @Override
+    public boolean eliminarEjercicioDiario(Long id) {
+        return ejercicioDiarioDAO.eliminarEjercicioDiario(id);
+    }
     
 }

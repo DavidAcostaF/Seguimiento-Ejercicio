@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package negocio;
 
 import dtos.EjercicioDTO;
@@ -14,4 +10,6 @@ import java.util.List;
 public interface IEjercicioBO {
     EjercicioDTO crearEjercicio(EjercicioDTO ejercicioDTO);
     List<EjercicioDTO> listaEjercicios();
+    EjercicioDTO modificarEjercicio(EjercicioDTO ejercicioDTO);
+    boolean eliminarEjercicio(Long id);
 }
