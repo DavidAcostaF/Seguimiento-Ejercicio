@@ -23,6 +23,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     private UsuarioDTO usuario;
     private IUsuarioBO uNegocio;
     private IRutinaBO rNegocio;
+    private EjercicioDTO ejercicioSeleccionado;
     private IEjercicioDiarioBO eNegocio;
     
     /**
@@ -115,12 +116,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
         getContentPane().add(checkSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, -1, -1));
 
         checkDomingo.setText("Domingo");
-        checkDomingo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkDomingoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(checkDomingo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, -1, -1));
+        getContentPane().add(checkDomingo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, -1, -1));
 
         btEliminar.setText("Eliminar");
         btEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -216,6 +212,8 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                     txtNombre.setText(ejercicio.nombre());
                     txtTipo.setText(ejercicio.tipo());
                     txtDuracion.setText(String.valueOf(ejercicio.duracion())); // Asumiendo que duracion es un número
+                    
+                    this.ejercicioSeleccionado = ejercicio;
 
                     // Marcar los días de la semana en los que el ejercicio está registrado
                     String dia = rutina.dia().nombre(); 
@@ -247,10 +245,6 @@ public class ModificarEjercicio extends javax.swing.JFrame {
         }
     }
     
-    private void checkDomingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkDomingoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkDomingoActionPerformed
-
     private void btEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEliminarActionPerformed
         
     }//GEN-LAST:event_btEliminarActionPerformed
@@ -261,8 +255,24 @@ public class ModificarEjercicio extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        
+        System.out.println(this.ejercicioSeleccionado.id());
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void actualizarEjercicioBase(){
+        
+        String nombreNuevo = txtNombre.getText();
+        String tipoNuevo = txtTipo.getText();
+        float duracionNuevo = Float.parseFloat(txtDuracion.getText());
+        
+        EjercicioDTO ejModificado = new EjercicioDTO(
+                ejercicioSeleccionado.id(), 
+                nombreNuevo, 
+                tipoNuevo, 
+                duracionNuevo);
+        
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

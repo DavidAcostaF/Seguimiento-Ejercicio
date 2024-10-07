@@ -9,5 +9,6 @@ import dominio.EjercicioDiario;
 public interface IEjercicioDiarioDAO {
     
     public EjercicioDiario crear(EjercicioDiario ejercicio);
+    public boolean eliminarEjercicioDiario(Long idEjercicio);
     
 }

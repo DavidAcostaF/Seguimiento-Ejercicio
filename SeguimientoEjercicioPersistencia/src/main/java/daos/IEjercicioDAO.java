@@ -16,4 +16,6 @@ import java.util.List;
 public interface IEjercicioDAO {
     public Ejercicio crear(Ejercicio ejercicio);
     public Ejercicio obtenerEjercicioNombre(String nombre);
+    public Ejercicio modificarEjercicio(Long idEjercicio, Ejercicio nuevoEjercicio);
+    public boolean eliminarEjercicio(Long idEjercicio);
 }

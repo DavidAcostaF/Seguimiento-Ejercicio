@@ -29,8 +29,8 @@ public class PruebasEjercicios {
         // Obtener al usuario ya registrado
         IUsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario usuarioExistente = new Usuario( 
-                "Jperez", 
-                "Contra");
+                "a", 
+                "123");
         Usuario usuarioEncontrado = usuarioDAO.obtener(usuarioExistente);
         
         // Obtener rutina del usuario
@@ -50,7 +50,16 @@ public class PruebasEjercicios {
 //        ejercicioDAO.crear(ejercicioBase);
         
         // se obtiene el ejercicio base
-        Ejercicio ejercicioEncontrado = ejercicioDAO.obtenerEjercicioNombre("Caminata");
+        Ejercicio ejercicioEncontrado = ejercicioDAO.obtenerEjercicioNombre("SeModifico");
+        System.out.println(ejercicioEncontrado.getId());
+        Ejercicio ejercicioModificado = new Ejercicio(
+                ejercicioEncontrado.getId(), 
+                "Correr", 
+                "Cardio", 
+                25f);
+        
+        System.out.println(ejercicioDAO.modificarEjercicio(ejercicioModificado.getId(),ejercicioModificado));
+        
         
         // crear el ejercicio con los dias de entrenamiento
 //        EjercicioDiario ejercicioLunes = new EjercicioDiario(
