@@ -33,13 +33,15 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     private IEjercicioDiarioBO ejercicioDiarioBO;
     private IEjercicioBO ejercicioBO;
     private IDiaBO diaBO;
+    private Observable observable;
     
     /**
      * Creates new form ModificarEjercicio
      */
-    public ModificarEjercicio() {
+    public ModificarEjercicio(Observable observable) {
         initComponents();
         iniciarComponentes();
+        this.observable = observable;
     }
     
     private void iniciarComponentes(){
@@ -262,13 +264,19 @@ public class ModificarEjercicio extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        Menu menu = new Menu(observable);
+        menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
         modificarEjerciciosDiarios();
         actualizarEjercicioBase();
+        Menu menu = new Menu(observable);
+        observable.notifyObservers();
+        menu.setVisible(true);
+        this.dispose();
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 

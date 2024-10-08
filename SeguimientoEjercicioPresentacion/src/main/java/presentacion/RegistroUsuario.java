@@ -21,13 +21,15 @@ import negocio.UsuariosBO;
 public class RegistroUsuario extends javax.swing.JFrame {
 
     private UsuariosBO usuariosBO;
+    private Observable observable;
 
     /**
      * Creates new form dlg_RegistroUsuario
      */
-    public RegistroUsuario() {
+    public RegistroUsuario(Observable observable) {
         initComponents();
         usuariosBO = new UsuariosBO();
+        this.observable = observable;
 
     }
 
@@ -222,7 +224,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
 
             System.out.println("Rutina creada con éxito.");
             SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultadoDTO;
-            Menu menu = new Menu();
+            Menu menu = new Menu(observable);
             menu.setVisible(true);
             this.dispose();
         } else {

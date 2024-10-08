@@ -16,9 +16,10 @@ public class SeguimientoEjercicioPresentacion {
     
     public static void main(String[] args) {
         
+        Observable observable = new Observable();
         IDiaBO diaBO = new DiaBO();
         diaBO.setDias();
-        LoginUsuario loginoUsuarios = new LoginUsuario();
+        LoginUsuario loginoUsuarios = new LoginUsuario(observable);
         loginoUsuarios.setVisible(true);
         
         

@@ -11,13 +11,15 @@ import negocio.UsuariosBO;
 public class LoginUsuario extends javax.swing.JFrame {
 
     private UsuariosBO usuariosBO;
+    private Observable observable;
 
     /**
      * Creates new form LoginUsuario
      */
-    public LoginUsuario() {
+    public LoginUsuario(Observable observable) {
         initComponents();
         usuariosBO = new UsuariosBO();
+        this.observable = observable;
 
     }
 
@@ -75,7 +77,7 @@ public class LoginUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        RegistroUsuario registro = new RegistroUsuario();
+        RegistroUsuario registro = new RegistroUsuario(observable);
         registro.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegistroActionPerformed
@@ -89,7 +91,7 @@ public class LoginUsuario extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(this, "No se encontró");
         }
         SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultado;
-        Menu menu = new Menu();
+        Menu menu = new Menu(observable);
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnIngresarActionPerformed

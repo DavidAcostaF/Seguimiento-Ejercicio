@@ -27,16 +27,18 @@ public class RegistroEjercicio extends javax.swing.JFrame {
     private IEjercicioDiarioBO ejercicioDiarioBO;
     private IDiaBO diaBO;
     private UsuarioDTO usuario = SeguimientoEjercicioPresentacion.USUARIO;
+    private Observable observable;
 
     /**
      * Creates new form RegistroEjercicio
      */
-    public RegistroEjercicio() {
+    public RegistroEjercicio(Observable observable) {
         initComponents();
         ejercicioBO = new EjercicioBO();    
         rutinaBO = new RutinaBO();
         diaBO = new DiaBO();
         ejercicioDiarioBO = new EjercicioDiarioBO();
+        this.observable = observable;
     }
 
     /**
@@ -212,8 +214,11 @@ public class RegistroEjercicio extends javax.swing.JFrame {
             EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoDomingo);
             ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
         }
-        Menu menu = new Menu();
-        menu.llenarTabla(null);
+        
+
+        // Cerrar la ventana actual y abrir el Menu
+        Menu menu = new Menu(observable);
+        observable.notifyObservers();
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed

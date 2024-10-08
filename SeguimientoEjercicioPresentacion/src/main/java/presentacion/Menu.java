@@ -16,26 +16,31 @@ import negocio.UsuariosBO;
  *
  * @author af_da
  */
-public class Menu extends javax.swing.JFrame {
+public class Menu extends javax.swing.JFrame implements Observador{
     
     private IRutinaBO rNegocio;
     private IUsuarioBO uNegocio;
     private DefaultTableModel modeloTabla, modeloTablaResumen;
     private UsuarioDTO usuario;
     private String[] dias = {"TODOS", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
+    private List<RutinaDTO> rutinas;
+    private Observable observable;
 
     /**
      * Creates new form Menu
      */
-    public Menu() {
+    public Menu(Observable observable) {
         initComponents();
         iniciarComponentes();
+        this.observable = observable;
+        observable.addObserver(this);
     }
     
     private void iniciarComponentes() {
         rNegocio = new RutinaBO();
         uNegocio = new UsuariosBO();
         this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
+        this.rutinas = rNegocio.obtenerRutinas(usuario);
 
         modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
         modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"}, 0);
@@ -238,7 +243,6 @@ public class Menu extends javax.swing.JFrame {
     }
     
     public void llenarTabla(String diaFiltro) {
-        List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
         modeloTabla.setRowCount(0); // Limpia la tabla
 
         for (RutinaDTO rutina : rutinas) {
@@ -260,7 +264,6 @@ public class Menu extends javax.swing.JFrame {
     }
     
     public void llenarTablaResumen() {
-        List<RutinaDTO> rutinas = rNegocio.obtenerRutinas(usuario);
         modeloTablaResumen.setRowCount(0);
 
         Map<String, Integer> ejerciciosCompletos = new HashMap<>();
@@ -310,7 +313,7 @@ public class Menu extends javax.swing.JFrame {
     }
     
     private void btnAgregarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjercicioActionPerformed
-        RegistroEjercicio registroEjercicio = new RegistroEjercicio();
+        RegistroEjercicio registroEjercicio = new RegistroEjercicio(observable);
         registroEjercicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAgregarEjercicioActionPerformed
@@ -321,7 +324,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnModificarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEjercicioActionPerformed
         // TODO add your handling code here:
-        ModificarEjercicio me = new ModificarEjercicio();
+        ModificarEjercicio me = new ModificarEjercicio(observable);
         me.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnModificarEjercicioActionPerformed
@@ -345,4 +348,18 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JTable tblResumen;
     private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update() {
+        // Limpiar los modelos de tabla antes de volver a llenarlos
+        modeloTabla.setRowCount(0);
+        modeloTablaResumen.setRowCount(0);
+
+        // Volver a cargar los datos desde la base de datos
+        this.rutinas = rNegocio.obtenerRutinas(usuario);
+
+        llenarTabla(null);
+        llenarTablaResumen();
+        System.out.println("Se actualizo");
+    }
 }
