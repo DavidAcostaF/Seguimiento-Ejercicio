@@ -1,12 +1,18 @@
 package presentacion;
 
+import dtos.DiaDTO;
+import dtos.EjercicioDTO;
 import dtos.EjercicioDiarioDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import extras.Render;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import negocio.EjercicioDiarioBO;
+import negocio.IEjercicioDiarioBO;
 import negocio.IRutinaBO;
 import negocio.IUsuarioBO;
 import negocio.RutinaBO;
@@ -16,8 +22,8 @@ import negocio.UsuariosBO;
  *
  * @author af_da
  */
-public class Menu extends javax.swing.JFrame implements Observador{
-    
+public class Menu extends javax.swing.JFrame implements Observador {
+
     private IRutinaBO rNegocio;
     private IUsuarioBO uNegocio;
     private DefaultTableModel modeloTabla, modeloTablaResumen;
@@ -25,6 +31,7 @@ public class Menu extends javax.swing.JFrame implements Observador{
     private String[] dias = {"TODOS", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
     private List<RutinaDTO> rutinas;
     private Observable observable;
+    private IEjercicioDiarioBO ejercicioDiarioBO;
 
     /**
      * Creates new form Menu
@@ -32,28 +39,32 @@ public class Menu extends javax.swing.JFrame implements Observador{
     public Menu() {
         initComponents();
         iniciarComponentes();
-        this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
-        observable.addObserver(this);
+//        this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
+//        observable.addObserver(this);
     }
-    
+
     private void iniciarComponentes() {
         rNegocio = new RutinaBO();
         uNegocio = new UsuariosBO();
+        ejercicioDiarioBO = new EjercicioDiarioBO();
         this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
         this.rutinas = rNegocio.obtenerRutinas(usuario);
+//        modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
-        modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"}, 0);
-
-        tablaEjercicios.setModel(modeloTabla); 
-        tblResumen.setModel(modeloTablaResumen); 
+//        tablaEjercicios.setModel(modeloTabla); 
 
         txtNombreUsuario.setText(usuario.nomUsuario());
         txtNombreUsuario.setEditable(false);
 
-        llenarComboBoxDias(); 
-        llenarTabla(null); 
-        llenarTablaResumen(); 
+        llenarComboBoxDias();
+        llenarTabla(null);
+//        for (RutinaDTO rutinaDTO:rutinas) {
+//            System.out.println("El dia es: "+rutinaDTO.dia());
+//            System.out.println("Tamano de la lista de los ejercicios diarios por dia: "+rutinaDTO.ejerciciosDiarios().size());
+//            for (EjercicioDiarioDTO ejercicio:rutinaDTO.ejerciciosDiarios()) {
+//                System.out.println("El ejercicio es:"+ejercicio.ejercicio().nombre());
+//            }
+//        }
 
     }
 
@@ -76,12 +87,10 @@ public class Menu extends javax.swing.JFrame implements Observador{
         tablaEjercicios = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         cbxFiltroDias = new javax.swing.JComboBox<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblResumen = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtNombreUsuario = new javax.swing.JTextField();
+        btnEstadistica = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,43 +171,6 @@ public class Menu extends javax.swing.JFrame implements Observador{
 
         getContentPane().add(cbxFiltroDias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 129, -1));
 
-        tblResumen.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Dia", "Total ejercicios", "Ejercicios completados", "Ejercicios pendientes", "% Completo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tblResumen);
-
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 580, 100));
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Resumen");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 600, -1));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -223,6 +195,14 @@ public class Menu extends javax.swing.JFrame implements Observador{
         });
         getContentPane().add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 130, -1));
 
+        btnEstadistica.setText("Estadísticas");
+        btnEstadistica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadisticaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEstadistica, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 130, 20));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -231,20 +211,39 @@ public class Menu extends javax.swing.JFrame implements Observador{
         for (String dia : dias) {
             cbxFiltroDias.addItem(dia);
         }
-        
+
         cbxFiltroDias.addActionListener(evt -> {
             String diaSeleccionado = (String) cbxFiltroDias.getSelectedItem();
             if ("TODOS".equals(diaSeleccionado)) {
-                llenarTabla(null); 
+                llenarTabla(null);
             } else {
                 llenarTabla(diaSeleccionado);
             }
         });
     }
-    
-    public void llenarTabla(String diaFiltro) {
-        modeloTabla.setRowCount(0); // Limpia la tabla
 
+    public void llenarTabla(String diaFiltro) {
+
+// Establecer las columnas y las características de la tabla
+        tablaEjercicios.setDefaultRenderer(Object.class, new Render());
+        String[] columnas = {"Día", "Ejercicio", "Tipo", "Duración", "Estado"};
+        boolean[] editable = {false, false, false, false, true};  // El estado puede ser editable si se requiere.
+        Class[] tipos = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class};
+
+        // Crear el modelo de la tabla con columnas
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
+            public Class getColumnClass(int i) {
+                return tipos[i];  // Definir los tipos de las columnas
+            }
+
+            public boolean isCellEditable(int row, int column) {
+                return editable[column];  // Solo hacer editable la columna correspondiente
+            }
+        };
+        limipiarTabla(tablaEjercicios, modeloTabla);
+
+        // Limpiar la tabla
+        // Recorrer las rutinas y aplicar el filtro por día
         for (RutinaDTO rutina : rutinas) {
             if (diaFiltro == null || rutina.dia().nombre().equals(diaFiltro)) {
                 for (EjercicioDiarioDTO ejercicio : rutina.ejerciciosDiarios()) {
@@ -253,65 +252,48 @@ public class Menu extends javax.swing.JFrame implements Observador{
                         ejercicio.ejercicio().nombre(),
                         ejercicio.ejercicio().tipo(),
                         ejercicio.ejercicio().duracion(),
-                        ejercicio.completado() ? "Completado" : "No completado"
+                        ejercicio.completado()
                     };
+
+                    // Añadir la fila al modelo de la tabla
                     modeloTabla.addRow(fila);
                 }
             }
         }
 
-        modeloTabla.fireTableDataChanged();
+        // Actualizar el modelo de la tabla en el JTable
+        tablaEjercicios.setModel(modeloTabla);
+
+        modeloTabla.addTableModelListener(e -> {
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            if (column == 4) { // La columna de los checkboxes es la última (índice 4)
+                String dia = (String) modeloTabla.getValueAt(row, 0);
+                String ejercicioNombre = (String) modeloTabla.getValueAt(row, 1); // Nombre del ejercicio
+                Boolean checked = (Boolean) modeloTabla.getValueAt(row, column);
+                EjercicioDTO ejercicioDTO = new EjercicioDTO(null,ejercicioNombre,null,0f);
+                DiaDTO diaDTO = new DiaDTO(0l,dia);
+                RutinaDTO rutinaDTO = new RutinaDTO(null,null,usuario,diaDTO);
+                EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(null,ejercicioDTO,checked,rutinaDTO);
+                ejercicioDiarioBO.actualizarEstado(ejercicioDiarioDTO);
+                System.out.println("El checkbox del ejercicio '" + ejercicioNombre + "' en la fila " + row + " fue " + (checked ? "marcado" : "desmarcado"));
+            }
+        });
+        // Notificar que los datos de la tabla han cambiado
+//    modeloTabla.fireTableDataChanged();
     }
-    
-    public void llenarTablaResumen() {
-        modeloTablaResumen.setRowCount(0);
 
-        Map<String, Integer> ejerciciosCompletos = new HashMap<>();
-        Map<String, Integer> ejerciciosPendientes = new HashMap<>();
-        Map<String, Integer> totalEjercicios = new HashMap<>();
-
-        // Inicializar los mapas
-        for (RutinaDTO rutina : rutinas) {
-            String dia = rutina.dia().nombre();
-            totalEjercicios.put(dia, 0);
-            ejerciciosCompletos.put(dia, 0);
-            ejerciciosPendientes.put(dia, 0);
-
-            // Contar ejercicios por día
-            for (EjercicioDiarioDTO ejercicio : rutina.ejerciciosDiarios()) {
-                totalEjercicios.put(dia, totalEjercicios.get(dia) + 1);
-                if (ejercicio.completado()) {
-                    ejerciciosCompletos.put(dia, ejerciciosCompletos.get(dia) + 1);
-                } else {
-                    ejerciciosPendientes.put(dia, ejerciciosPendientes.get(dia) + 1);
-                }
+    private void limipiarTabla(JTable tabla, DefaultTableModel modeloTabla) {
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                modeloTabla.removeRow(i);
+                i -= 1;
             }
         }
-
-        String[] diasOrdenados = {"LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
-
-        // Llenar la tabla resumen
-        for (String dia : diasOrdenados) {
-            if (totalEjercicios.containsKey(dia)) {
-                int total = totalEjercicios.get(dia);
-                int completos = ejerciciosCompletos.get(dia);
-                int pendientes = ejerciciosPendientes.get(dia);
-                double porcentaje = total > 0 ? (completos * 100.0) / total : 0;
-
-                Object[] fila = new Object[]{
-                    dia,
-                    completos,
-                    pendientes,
-                    total,
-                    String.format("%.2f%%", porcentaje) // Formatea el porcentaje
-                };
-                modeloTablaResumen.addRow(fila);
-            }
-        }
-
-        modeloTablaResumen.fireTableDataChanged();
     }
-    
+
+
+
     private void btnAgregarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjercicioActionPerformed
         RegistroEjercicio registroEjercicio = new RegistroEjercicio();
         registroEjercicio.setVisible(true);
@@ -329,23 +311,27 @@ public class Menu extends javax.swing.JFrame implements Observador{
         this.dispose();
     }//GEN-LAST:event_btnModificarEjercicioActionPerformed
 
+    private void btnEstadisticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticaActionPerformed
+        EstadisticaSemanal estadistica = new EstadisticaSemanal();
+        estadistica.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEstadisticaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarEjercicio;
+    private javax.swing.JButton btnEstadistica;
     private javax.swing.JButton btnModificarEjercicio;
     private javax.swing.JComboBox<String> cbxFiltroDias;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tablaEjercicios;
-    private javax.swing.JTable tblResumen;
     private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 
@@ -359,7 +345,7 @@ public class Menu extends javax.swing.JFrame implements Observador{
         this.rutinas = rNegocio.obtenerRutinas(usuario);
 
         llenarTabla(null);
-        llenarTablaResumen();
+//        llenarTablaResumen();
         System.out.println("Se actualizo");
     }
 }

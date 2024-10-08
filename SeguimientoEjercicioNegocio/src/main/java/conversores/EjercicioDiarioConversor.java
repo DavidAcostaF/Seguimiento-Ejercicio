@@ -32,6 +32,7 @@ public class EjercicioDiarioConversor implements IConversor<EjercicioDiario, Eje
                     null,
                     null)
         );
+        
     }
 
     @Override

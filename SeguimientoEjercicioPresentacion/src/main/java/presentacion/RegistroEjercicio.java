@@ -218,7 +218,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
 
         // Cerrar la ventana actual y abrir el Menu
         Menu menu = new Menu();
-        observable.notifyObservers();
+//        observable.notifyObservers();
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed

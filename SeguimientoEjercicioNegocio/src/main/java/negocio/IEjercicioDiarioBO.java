@@ -14,4 +14,6 @@ import dtos.EjercicioDiarioDTO;
 public interface IEjercicioDiarioBO {
     void crearEjercicioDiario(EjercicioDiarioDTO ejercicioDiario);
     public boolean eliminarEjercicioDiario(Long id);
+    public EjercicioDiarioDTO obtenerEjercicioDiario(EjercicioDiarioDTO ejercicioDiario);
+    public EjercicioDiarioDTO actualizarEstado(EjercicioDiarioDTO ejercicioDiario);
 }

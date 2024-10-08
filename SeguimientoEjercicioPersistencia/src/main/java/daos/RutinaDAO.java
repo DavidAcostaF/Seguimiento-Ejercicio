@@ -35,9 +35,11 @@ public class RutinaDAO implements IRutinaDAO{
         EntityManager entityManager = conexion.obtenerConexion();
 
         Rutina rutinaEncontradas = entityManager.createQuery(
-                "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario AND r.dia.id = :dia_id", Rutina.class)
+                "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario AND r.dia.id = :dia_id ", Rutina.class)
                 .setParameter("id_usuario", usuario.getId())
                 .setParameter("dia_id", dia)
+//                and r.ejerciciosDiarios.activo = :activo
+//                .setParameter("activo", true)
                 .getSingleResult();
 
         return rutinaEncontradas;
