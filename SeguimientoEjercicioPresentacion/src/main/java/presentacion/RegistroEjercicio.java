@@ -32,13 +32,13 @@ public class RegistroEjercicio extends javax.swing.JFrame {
     /**
      * Creates new form RegistroEjercicio
      */
-    public RegistroEjercicio(Observable observable) {
+    public RegistroEjercicio() {
         initComponents();
         ejercicioBO = new EjercicioBO();    
         rutinaBO = new RutinaBO();
         diaBO = new DiaBO();
         ejercicioDiarioBO = new EjercicioDiarioBO();
-        this.observable = observable;
+        this.observable = SeguimientoEjercicioPresentacion.observable;
     }
 
     /**
@@ -217,7 +217,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         
 
         // Cerrar la ventana actual y abrir el Menu
-        Menu menu = new Menu(observable);
+        Menu menu = new Menu();
         observable.notifyObservers();
         menu.setVisible(true);
         this.dispose();

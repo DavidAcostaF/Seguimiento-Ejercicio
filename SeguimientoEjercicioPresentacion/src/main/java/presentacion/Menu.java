@@ -29,10 +29,10 @@ public class Menu extends javax.swing.JFrame implements Observador{
     /**
      * Creates new form Menu
      */
-    public Menu(Observable observable) {
+    public Menu() {
         initComponents();
         iniciarComponentes();
-        this.observable = observable;
+        this.observable = SeguimientoEjercicioPresentacion.observable;
         observable.addObserver(this);
     }
     
@@ -313,7 +313,7 @@ public class Menu extends javax.swing.JFrame implements Observador{
     }
     
     private void btnAgregarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjercicioActionPerformed
-        RegistroEjercicio registroEjercicio = new RegistroEjercicio(observable);
+        RegistroEjercicio registroEjercicio = new RegistroEjercicio();
         registroEjercicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAgregarEjercicioActionPerformed
@@ -324,7 +324,7 @@ public class Menu extends javax.swing.JFrame implements Observador{
 
     private void btnModificarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEjercicioActionPerformed
         // TODO add your handling code here:
-        ModificarEjercicio me = new ModificarEjercicio(observable);
+        ModificarEjercicio me = new ModificarEjercicio();
         me.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnModificarEjercicioActionPerformed
