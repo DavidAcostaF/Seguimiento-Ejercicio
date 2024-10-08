@@ -32,7 +32,7 @@ public class Menu extends javax.swing.JFrame implements Observador{
     public Menu() {
         initComponents();
         iniciarComponentes();
-        this.observable = SeguimientoEjercicioPresentacion.observable;
+        this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
         observable.addObserver(this);
     }
     

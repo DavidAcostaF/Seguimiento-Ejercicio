@@ -38,7 +38,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         rutinaBO = new RutinaBO();
         diaBO = new DiaBO();
         ejercicioDiarioBO = new EjercicioDiarioBO();
-        this.observable = SeguimientoEjercicioPresentacion.observable;
+        this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
     }
 
     /**

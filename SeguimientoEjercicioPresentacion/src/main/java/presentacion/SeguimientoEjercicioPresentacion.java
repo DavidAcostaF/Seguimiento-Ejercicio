@@ -13,11 +13,11 @@ import negocio.IDiaBO;
  */
 public class SeguimientoEjercicioPresentacion {
     public static UsuarioDTO USUARIO;
-    public static Observable observable;
+    public static Observable OBSERVABLE;
     
     public static void main(String[] args) {
         
-        observable = new Observable();
+        OBSERVABLE = new Observable();
         IDiaBO diaBO = new DiaBO();
         diaBO.setDias();
         LoginUsuario loginoUsuarios = new LoginUsuario();

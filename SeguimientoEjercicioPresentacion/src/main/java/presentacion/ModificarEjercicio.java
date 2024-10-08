@@ -41,7 +41,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     public ModificarEjercicio() {
         initComponents();
         iniciarComponentes();
-        this.observable = SeguimientoEjercicioPresentacion.observable;
+        this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
     }
     
     private void iniciarComponentes(){
