@@ -25,7 +25,9 @@ public class RutinaDAO implements IRutinaDAO{
         entityManager.persist(rutina);
         entityManager.getTransaction().commit();
         entityManager.refresh(rutina);
+        entityManager.clear();
         entityManager.close();
+        
         return rutina;
 
     }
@@ -33,16 +35,21 @@ public class RutinaDAO implements IRutinaDAO{
     @Override
     public Rutina obtenerRutinaUsuarioDia(Usuario usuario, int dia) {
         EntityManager entityManager = conexion.obtenerConexion();
+        Rutina rutinaEncontrada = null;
 
-        Rutina rutinaEncontradas = entityManager.createQuery(
-                "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario AND r.dia.id = :dia_id ", Rutina.class)
-                .setParameter("id_usuario", usuario.getId())
-                .setParameter("dia_id", dia)
-//                and r.ejerciciosDiarios.activo = :activo
-//                .setParameter("activo", true)
-                .getSingleResult();
+        try {
+            rutinaEncontrada = entityManager.createQuery(
+                    "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario AND r.dia.id = :dia_id", Rutina.class)
+                    .setParameter("id_usuario", usuario.getId())
+                    .setParameter("dia_id", dia)
+                    .getSingleResult();
 
-        return rutinaEncontradas;
+            entityManager.clear();
+        } finally {
+            entityManager.close();
+        }
+
+        return rutinaEncontrada;
     }
 
     @Override
@@ -54,14 +61,13 @@ public class RutinaDAO implements IRutinaDAO{
             rutinaEncontradas = entityManager.createQuery(
                     "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario", Rutina.class)
                     .setParameter("id_usuario", usuario.getId()).getResultList();
+            
+            entityManager.clear();
         } finally {
             entityManager.close(); 
         }
 
         return rutinaEncontradas;
     }
-
-    
-
 
 }

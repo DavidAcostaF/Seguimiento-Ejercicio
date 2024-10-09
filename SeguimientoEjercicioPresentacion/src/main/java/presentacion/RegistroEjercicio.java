@@ -8,6 +8,8 @@ import dtos.EjercicioDTO;
 import dtos.EjercicioDiarioDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import negocio.DiaBO;
 import negocio.EjercicioBO;
 import negocio.EjercicioDiarioBO;
@@ -215,7 +217,6 @@ public class RegistroEjercicio extends javax.swing.JFrame {
             ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
         }
         
-
         // Cerrar la ventana actual y abrir el Menu
         Menu menu = new Menu();
 //        observable.notifyObservers();

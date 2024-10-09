@@ -22,11 +22,19 @@ public class EjercicioDiarioDAO implements IEjercicioDiarioDAO {
     @Override
     public EjercicioDiario crear(EjercicioDiario ejercicio) {
         EntityManager entityManager = conexion.obtenerConexion();
-        entityManager.getTransaction().begin();
-        entityManager.persist(ejercicio);
-        entityManager.getTransaction().commit();
-        entityManager.refresh(ejercicio);
-        entityManager.close();
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(ejercicio);
+            entityManager.getTransaction().commit();
+            entityManager.refresh(ejercicio);
+            entityManager.clear();
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
+
         return ejercicio;
     }
 
@@ -43,6 +51,7 @@ public class EjercicioDiarioDAO implements IEjercicioDiarioDAO {
             query.setParameter("idEjercicio", idEjercicio);
             int rowsDeleted = query.executeUpdate();
             transaction.commit();
+            entityManager.clear();
             // Retorna true si se eliminó al menos una fila
             return rowsDeleted > 0;
         } catch (Exception e) {
@@ -57,7 +66,7 @@ public class EjercicioDiarioDAO implements IEjercicioDiarioDAO {
     }
 
     @Override
-    public EjercicioDiario obtener(EjercicioDiario ejercicio,String nombreDia) {
+    public EjercicioDiario obtener(EjercicioDiario ejercicio, String nombreDia) {
         EntityManager entityManager = conexion.obtenerConexion();
         System.out.println(ejercicio.getRutina().getDia());
         TypedQuery<EjercicioDiario> query = entityManager.createQuery(
@@ -89,6 +98,8 @@ public class EjercicioDiarioDAO implements IEjercicioDiarioDAO {
             EjercicioDiario ejercicioActualizado = entityManager.merge(ejercicio);
 
             transaction.commit(); // Confirmar la transacción
+            entityManager.clear();
+            
             return ejercicioActualizado; // Retorna el objeto actualizado
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {

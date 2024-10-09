@@ -20,11 +20,19 @@ public class EjercicioDAO implements IEjercicioDAO{
     @Override
     public Ejercicio crear(Ejercicio ejercicio) {
         EntityManager entityManager = conexion.obtenerConexion();
-        entityManager.getTransaction().begin();
-        entityManager.persist(ejercicio);
-        entityManager.getTransaction().commit();
-        entityManager.refresh(ejercicio);
-        entityManager.close();
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(ejercicio);
+            entityManager.getTransaction().commit();
+            entityManager.refresh(ejercicio);
+            entityManager.clear();
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
+
         return ejercicio;
     }
 
@@ -65,6 +73,7 @@ public class EjercicioDAO implements IEjercicioDAO{
             }
 
             transaction.commit();
+            entityManager.clear();
             ejercicioActualizado = entityManager.find(Ejercicio.class, idEjercicio);
         } catch (Exception e) {
             if (transaction.isActive()) {
