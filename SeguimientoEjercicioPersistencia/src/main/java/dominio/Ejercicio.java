@@ -28,6 +28,10 @@ public class Ejercicio implements Serializable {
     public Ejercicio() {
     }
 
+    public Ejercicio(Long id) {
+        this.id = id;
+    }
+
     // Constructor con todos los atributos menos el id (cuando se crea un nuevo ejercicio)
     public Ejercicio(String nombre, String tipo, float duracion) {
         this.nombre = nombre;

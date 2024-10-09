@@ -58,11 +58,24 @@ public class RutinaDAO implements IRutinaDAO{
         List<Rutina> rutinaEncontradas = new ArrayList<>();
 
         try {
+            // Obtener la lista de rutinas desde la base de datos
             rutinaEncontradas = entityManager.createQuery(
                     "SELECT r FROM Rutina r WHERE r.usuario.id = :id_usuario", Rutina.class)
-                    .setParameter("id_usuario", usuario.getId()).getResultList();
-            
-            entityManager.clear();
+                    .setParameter("id_usuario", usuario.getId())
+                    .getResultList();
+
+            // Refrescar cada rutina en la lista
+            for (Rutina rutina : rutinaEncontradas) {
+                if (entityManager.contains(rutina)) {
+                    entityManager.refresh(rutina); // Forzar la recarga desde la base de datos
+                } else {
+                    // Si la rutina no está gestionada, buscarla de nuevo para que lo esté
+                    rutina = entityManager.find(Rutina.class, rutina.getId());
+                    entityManager.refresh(rutina); // Luego refrescarla
+                }
+            }
+
+            entityManager.clear(); 
         } finally {
             entityManager.close(); 
         }
