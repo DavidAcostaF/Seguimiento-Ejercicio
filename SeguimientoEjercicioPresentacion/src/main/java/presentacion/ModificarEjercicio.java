@@ -1,14 +1,24 @@
 package presentacion;
 
+import crearEjercicioDiario.FCrearEjercicioDiario;
+import crearEjercicioDiario.ICrearEjercicioDiario;
 import dtos.EjercicioDTO;
 import dtos.EjercicioDiarioDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import eliminarEjercicio.FEliminarEjercicio;
+import eliminarEjercicio.IEliminarEjercicio;
+import eliminarEjercicioDiario.FEliminarEjercicioDiario;
+import eliminarEjercicioDiario.IEliminarEjercicioDiario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import modificarEjercicio.FModificarEjercicio;
+import modificarEjercicio.IModificarEjercicio;
+import modificarEjercicioDiario.FModificarEjercicioDiario;
+import modificarEjercicioDiario.IModificarEjercicioDiario;
 import negocio.DiaBO;
 import negocio.EjercicioBO;
 import negocio.EjercicioDiarioBO;
@@ -19,6 +29,10 @@ import negocio.IRutinaBO;
 import negocio.IUsuarioBO;
 import negocio.RutinaBO;
 import negocio.UsuariosBO;
+import obtenerRutinas.FObtenerRutinas;
+import obtenerRutinas.IObtenerRutinas;
+import obtenerUsuarios.FObtenerUsuarios;
+import obtenerUsuarios.IObtenerUsuarios;
 
 /**
  *
@@ -27,11 +41,14 @@ import negocio.UsuariosBO;
 public class ModificarEjercicio extends javax.swing.JFrame {
 
     private UsuarioDTO usuario;
-    private IUsuarioBO uNegocio;
-    private IRutinaBO rutinaBO;
+    private IObtenerUsuarios obtenerUsuario;
+    private IObtenerRutinas obtenerRutinas;
     private EjercicioDTO ejercicioSeleccionado;
-    private IEjercicioDiarioBO ejercicioDiarioBO;
-    private IEjercicioBO ejercicioBO;
+    private IModificarEjercicioDiario modificarEjercicioDiario;
+    private IModificarEjercicio modificarEjercicio;
+    private IEliminarEjercicio eliminarEjercicio;
+    private IEliminarEjercicioDiario eliminarEjercicioDiario;
+    private ICrearEjercicioDiario crearEjercicioDiario;
     private IDiaBO diaBO;
     private Observable observable;
     
@@ -45,11 +62,14 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     }
     
     private void iniciarComponentes(){
-        this.uNegocio = new UsuariosBO();
-        this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
-        this.rutinaBO = new RutinaBO();
-        this.ejercicioBO = new EjercicioBO();
-        this.ejercicioDiarioBO = new EjercicioDiarioBO();
+        obtenerRutinas = new FObtenerRutinas();
+        obtenerUsuario = new FObtenerUsuarios();
+        this.modificarEjercicioDiario = new FModificarEjercicioDiario();
+        this.modificarEjercicio = new FModificarEjercicio();
+        this.eliminarEjercicio = new FEliminarEjercicio();
+        this.eliminarEjercicioDiario = new FEliminarEjercicioDiario();
+        this.crearEjercicioDiario = new FCrearEjercicioDiario();
+        this.usuario = obtenerUsuario.obtenerUsuario(SeguimientoEjercicioPresentacion.USUARIO);
         this.diaBO = new DiaBO();
         obtenerEjerciciosCbx();
         
@@ -181,7 +201,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void obtenerEjerciciosCbx() {
-        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
+        List<RutinaDTO> rutinas = obtenerRutinas.obtenerRutinas(usuario);
         List<EjercicioDTO> ejercicios = new ArrayList<>();
 
         for (RutinaDTO r : rutinas) {
@@ -198,7 +218,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     
     private void cargarDatosEjercicio(String nombreEjercicio) {
         // Obtener las rutinas del usuario
-        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
+        List<RutinaDTO> rutinas = obtenerRutinas.obtenerRutinas(usuario);
 
         // Limpiar los campos de texto antes de cargar nuevos datos
         txtNombre.setText("");
@@ -260,7 +280,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
     
     private void btEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEliminarActionPerformed
         eliminarEjerciciosDiarios();
-        ejercicioBO.eliminarEjercicio(ejercicioSeleccionado.id());
+        eliminarEjercicio.eliminarEjercicio(ejercicioSeleccionado.id());
         Menu menu = new Menu();
         observable.notifyObservers();
         menu.setVisible(true);
@@ -297,12 +317,12 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 tipoNuevo, 
                 duracionNuevo);
         
-        return ejercicioBO.modificarEjercicio(ejModificado);
+        return modificarEjercicio.modificarEjercicio(ejModificado);
         
     }
     
     private void modificarEjerciciosDiarios() {
-        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
+        List<RutinaDTO> rutinas = obtenerRutinas.obtenerRutinas(usuario);
 
         Map<String, Integer> dias = Map.of(
                 "Lunes", diaBO.obtenerNumeroDia("Lunes"),
@@ -343,7 +363,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                     break;
             }
 
-            RutinaDTO rutinaDto = rutinaBO.obtenerRutina(usuario, numeroDia);
+            RutinaDTO rutinaDto = obtenerRutinas.obtenerRutina(usuario, numeroDia);
             boolean ejercicioEncontrado = false;
 
             // Recorrer los ejercicios diarios de la rutina para verificar existencia
@@ -353,7 +373,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                     ejercicioEncontrado = true; // El ejercicio ya está registrado
                     if (!checkSeleccionado) {
                         // Si el checkbox no está seleccionado, se elimina el ejercicioDiario
-                        ejercicioDiarioBO.eliminarEjercicioDiario(ejercicioDiario.id());
+                        eliminarEjercicioDiario.eliminarEjercicioDiario(ejercicioDiario.id());
                     }
                     break;
                 }
@@ -362,13 +382,13 @@ public class ModificarEjercicio extends javax.swing.JFrame {
             if (checkSeleccionado && !ejercicioEncontrado) {
                 // Si el checkbox está seleccionado y no se encontro el ejercicio se crea
                 EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioSeleccionado, false, rutinaDto);
-                ejercicioDiarioBO.crearEjercicioDiario(ejercicioDiarioDTO);
+                crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
             }
         }
     }
     
     private void eliminarEjerciciosDiarios() {
-        List<RutinaDTO> rutinas = rutinaBO.obtenerRutinas(usuario);
+        List<RutinaDTO> rutinas = obtenerRutinas.obtenerRutinas(usuario);
 
         // Crear un mapa de días a sus números
         Map<String, Integer> dias = Map.of(
@@ -386,7 +406,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
             String dia = entry.getKey();
             int numeroDia = entry.getValue();
 
-            RutinaDTO rutinaDto = rutinaBO.obtenerRutina(usuario, numeroDia);
+            RutinaDTO rutinaDto = obtenerRutinas.obtenerRutina(usuario, numeroDia);
             boolean ejercicioEncontrado = false;
 
             // Recorrer los ejercicios diarios de la rutina para verificar existencia
@@ -395,7 +415,7 @@ public class ModificarEjercicio extends javax.swing.JFrame {
                 if (ejercicio.nombre().equals(ejercicioSeleccionado.nombre())) {
                     ejercicioEncontrado = true; // El ejercicio ya está registrado
                     // Eliminar el ejercicioDiario encontrado
-                    ejercicioDiarioBO.eliminarEjercicioDiario(ejercicioDiario.id());
+                    eliminarEjercicioDiario.eliminarEjercicioDiario(ejercicioDiario.id());
                     break; // Salimos del bucle después de eliminar
                 }
             }

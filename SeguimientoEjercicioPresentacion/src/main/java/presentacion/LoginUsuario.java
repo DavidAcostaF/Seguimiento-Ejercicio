@@ -2,7 +2,10 @@ package presentacion;
 
 import dtos.UsuarioDTO;
 import javax.swing.JOptionPane;
-import negocio.UsuariosBO;
+import obtenerUsuarios.FObtenerUsuarios;
+import obtenerUsuarios.IObtenerUsuarios;
+import registrarUsuario.FRegistrarUsuario;
+import registrarUsuario.IRegistrarUsuario;
 
 /**
  *
@@ -10,14 +13,14 @@ import negocio.UsuariosBO;
  */
 public class LoginUsuario extends javax.swing.JFrame {
 
-    private UsuariosBO usuariosBO;
+    private IObtenerUsuarios obtenerUsuario;
 
     /**
      * Creates new form LoginUsuario
      */
     public LoginUsuario() {
         initComponents();
-        usuariosBO = new UsuariosBO();
+        obtenerUsuario = new FObtenerUsuarios();
 
     }
 
@@ -84,7 +87,7 @@ public class LoginUsuario extends javax.swing.JFrame {
         String usuario = txtUsuario.getText();
         String contra = String.valueOf(txtContra.getPassword());
         UsuarioDTO usuarioDTO = new UsuarioDTO(null, "", usuario, contra, 0, 0f, 0f);
-        UsuarioDTO usuarioConsultado = this.usuariosBO.loginUsuario(usuarioDTO);
+        UsuarioDTO usuarioConsultado = this.obtenerUsuario.obtenerUsuario(usuarioDTO);
         if (usuarioConsultado == null) {
             JOptionPane.showConfirmDialog(this, "No se encontró");
         }

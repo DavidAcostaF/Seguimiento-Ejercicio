@@ -15,6 +15,10 @@ import negocio.IRutinaBO;
 import negocio.IUsuarioBO;
 import negocio.RutinaBO;
 import negocio.UsuariosBO;
+import obtenerRutinas.FObtenerRutinas;
+import obtenerRutinas.IObtenerRutinas;
+import obtenerUsuarios.FObtenerUsuarios;
+import obtenerUsuarios.IObtenerUsuarios;
 
 /**
  *
@@ -22,8 +26,8 @@ import negocio.UsuariosBO;
  */
 public class EstadisticaSemanal extends javax.swing.JFrame {
 
-    private IRutinaBO rNegocio;
-    private IUsuarioBO uNegocio;
+    private IObtenerRutinas obtenerRutinas;
+    private IObtenerUsuarios obtenerUsuario;
     private UsuarioDTO usuario;
     private DefaultTableModel modeloTabla, modeloTablaResumen;
 
@@ -34,10 +38,10 @@ public class EstadisticaSemanal extends javax.swing.JFrame {
      */
     public EstadisticaSemanal() {
         initComponents();
-        this.uNegocio = new UsuariosBO();
-        this.rNegocio = new RutinaBO();
-        this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
-        this.rutinas = rNegocio.obtenerRutinas(usuario);
+        obtenerRutinas = new FObtenerRutinas();
+        obtenerUsuario = new FObtenerUsuarios();
+        this.usuario = obtenerUsuario.obtenerUsuario(SeguimientoEjercicioPresentacion.USUARIO);
+        this.rutinas = obtenerRutinas.obtenerRutinas(usuario);
         modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"}, 0);
         tblResumen.setModel(modeloTablaResumen);
         llenarTablaResumen();

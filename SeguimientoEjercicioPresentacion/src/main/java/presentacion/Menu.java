@@ -11,12 +11,18 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import modificarEjercicioDiario.FModificarEjercicioDiario;
+import modificarEjercicioDiario.IModificarEjercicioDiario;
 import negocio.EjercicioDiarioBO;
 import negocio.IEjercicioDiarioBO;
 import negocio.IRutinaBO;
 import negocio.IUsuarioBO;
 import negocio.RutinaBO;
 import negocio.UsuariosBO;
+import obtenerRutinas.FObtenerRutinas;
+import obtenerRutinas.IObtenerRutinas;
+import obtenerUsuarios.FObtenerUsuarios;
+import obtenerUsuarios.IObtenerUsuarios;
 
 /**
  *
@@ -24,14 +30,14 @@ import negocio.UsuariosBO;
  */
 public class Menu extends javax.swing.JFrame implements Observador {
 
-    private IRutinaBO rNegocio;
-    private IUsuarioBO uNegocio;
+    private IObtenerRutinas obtenerRutinas;
+    private IObtenerUsuarios obtenerUsuario;
     private DefaultTableModel modeloTabla, modeloTablaResumen;
     private UsuarioDTO usuario;
     private String[] dias = {"TODOS", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"};
     private List<RutinaDTO> rutinas;
     private Observable observable;
-    private IEjercicioDiarioBO ejercicioDiarioBO;
+    private IModificarEjercicioDiario modificarEjercicioDiario;
 
     /**
      * Creates new form Menu
@@ -39,33 +45,20 @@ public class Menu extends javax.swing.JFrame implements Observador {
     public Menu() {
         initComponents();
         iniciarComponentes();
-//        this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
-//        observable.addObserver(this);
     }
 
     private void iniciarComponentes() {
-        rNegocio = new RutinaBO();
-        uNegocio = new UsuariosBO();
-        ejercicioDiarioBO = new EjercicioDiarioBO();
-        this.usuario = uNegocio.loginUsuario(SeguimientoEjercicioPresentacion.USUARIO);
-        this.rutinas = rNegocio.obtenerRutinas(usuario);
-//        modeloTabla = new DefaultTableModel(new String[]{"Día", "Ejercicio", "Tipo", "Tiempo", "Estado"}, 0);
-
-//        tablaEjercicios.setModel(modeloTabla); 
+        obtenerRutinas = new FObtenerRutinas();
+        obtenerUsuario = new FObtenerUsuarios();
+        modificarEjercicioDiario = new FModificarEjercicioDiario();
+        this.usuario = obtenerUsuario.obtenerUsuario(SeguimientoEjercicioPresentacion.USUARIO);
+        this.rutinas = obtenerRutinas.obtenerRutinas(usuario);
 
         txtNombreUsuario.setText(usuario.nomUsuario());
         txtNombreUsuario.setEditable(false);
 
         llenarComboBoxDias();
         llenarTabla(null);
-        for (RutinaDTO rutinaDTO:rutinas) {
-            System.out.println("El dia es: "+rutinaDTO.dia());
-            System.out.println("Tamano de la lista de los ejercicios diarios por dia: "+rutinaDTO.ejerciciosDiarios().size());
-            for (EjercicioDiarioDTO ejercicio:rutinaDTO.ejerciciosDiarios()) {
-                System.out.println("El ejercicio es:"+ejercicio.ejercicio().nombre());
-            }
-        }
-
     }
 
     /**
@@ -225,9 +218,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
     public void llenarTabla(String diaFiltro) {
 
         // volver a obtener las rutinas
-        this.rutinas = rNegocio.obtenerRutinas(usuario);
-        // volver a obtener las rutinas
-        this.rutinas = rNegocio.obtenerRutinas(usuario);
+        this.rutinas = obtenerRutinas.obtenerRutinas(usuario);
         // Establecer las columnas y las características de la tabla
         tablaEjercicios.setDefaultRenderer(Object.class, new Render());
         String[] columnas = {"Día", "Ejercicio", "Tipo", "Duración", "Estado"};
@@ -279,7 +270,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
                 DiaDTO diaDTO = new DiaDTO(0l, dia);
                 RutinaDTO rutinaDTO = new RutinaDTO(null, null, usuario, diaDTO);
                 EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(null, ejercicioDTO, checked, rutinaDTO);
-                ejercicioDiarioBO.actualizarEstado(ejercicioDiarioDTO);
+                modificarEjercicioDiario.actualizarEstadoEjercicio(ejercicioDiarioDTO);
                 System.out.println("El checkbox del ejercicio '" + ejercicioNombre + "' en la fila " + row + " fue " + (checked ? "marcado" : "desmarcado"));
             }
         });
@@ -321,47 +312,12 @@ public class Menu extends javax.swing.JFrame implements Observador {
         this.dispose();
     }//GEN-LAST:event_btnEstadisticaActionPerformed
 
-    public boolean hastaQueAtctualize(List<RutinaDTO> rutinas){
-        int lunes = this.rutinas.get(0).ejerciciosDiarios().size();
-        int martes = this.rutinas.get(1).ejerciciosDiarios().size();
-        int miercoles = this.rutinas.get(2).ejerciciosDiarios().size();
-        int jueves = this.rutinas.get(3).ejerciciosDiarios().size();
-        int viernes = this.rutinas.get(4).ejerciciosDiarios().size();
-        int sabado = this.rutinas.get(5).ejerciciosDiarios().size();
-        int domingo = this.rutinas.get(6).ejerciciosDiarios().size();
-        
-        if (rutinas.get(0).ejerciciosDiarios().size() != lunes) {
-            return true;
-        }
-        if (rutinas.get(1).ejerciciosDiarios().size() != martes) {
-            return true;
-        }
-        if (rutinas.get(2).ejerciciosDiarios().size() != miercoles) {
-            return true;
-        }
-        if (rutinas.get(3).ejerciciosDiarios().size() != jueves) {
-            return true;
-        }
-        if (rutinas.get(4).ejerciciosDiarios().size() != viernes) {
-            return true;
-        }
-        if (rutinas.get(5).ejerciciosDiarios().size() != sabado) {
-            return true;
-        }
-        if (rutinas.get(6).ejerciciosDiarios().size() != domingo) {
-            return true;
-        }
-        
-        return false;
-    
-    }
-
     public List<RutinaDTO> getRutinas() {
         return rutinas;
     }
     
     public void actualizarRutinas(){
-        this.rutinas = rNegocio.obtenerRutinas(usuario);
+        this.rutinas = obtenerRutinas.obtenerRutinas(usuario);
     }
     
 
@@ -389,7 +345,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
         modeloTablaResumen.setRowCount(0);
 
         // Volver a cargar los datos desde la base de datos
-        this.rutinas = rNegocio.obtenerRutinas(usuario);
+        this.rutinas = obtenerRutinas.obtenerRutinas(usuario);
 
         llenarTabla(null);
 //        llenarTablaResumen();

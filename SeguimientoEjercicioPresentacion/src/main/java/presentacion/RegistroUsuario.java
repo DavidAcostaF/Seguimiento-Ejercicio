@@ -4,6 +4,8 @@
  */
 package presentacion;
 
+import crearRutina.FCrearRutina;
+import crearRutina.ICrearRutina;
 import dtos.DiaDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
@@ -13,6 +15,8 @@ import javax.swing.JOptionPane;
 import negocio.DiaBO;
 import negocio.RutinaBO;
 import negocio.UsuariosBO;
+import registrarUsuario.FRegistrarUsuario;
+import registrarUsuario.IRegistrarUsuario;
 
 /**
  *
@@ -20,14 +24,16 @@ import negocio.UsuariosBO;
  */
 public class RegistroUsuario extends javax.swing.JFrame {
 
-    private UsuariosBO usuariosBO;
+    private IRegistrarUsuario registroUsuario;
+    private ICrearRutina crearRutina;
 
     /**
      * Creates new form dlg_RegistroUsuario
      */
     public RegistroUsuario() {
         initComponents();
-        usuariosBO = new UsuariosBO();
+        registroUsuario = new FRegistrarUsuario();
+        crearRutina = new FCrearRutina();
 
     }
 
@@ -197,7 +203,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         String estatura = txtEstatura.getText();
         char[] contrasenia = txtcontra1.getPassword();
         UsuarioDTO usuarioDTO = new UsuarioDTO(null, nombre, usuario, String.valueOf(contrasenia), Integer.parseInt(edad), Float.parseFloat(peso), Float.parseFloat(estatura));
-        UsuarioDTO usuarioCreado = usuariosBO.crearUsuario(usuarioDTO);
+        UsuarioDTO usuarioCreado = registroUsuario.registrarUsuario(usuarioDTO);
         
         
         if (usuarioCreado==null){
@@ -206,7 +212,6 @@ public class RegistroUsuario extends javax.swing.JFrame {
         
         UsuariosBO usuarioBO = new UsuariosBO();
         UsuarioDTO usuarioConsultadoDTO = usuarioBO.loginUsuario(usuarioDTO);
-        RutinaBO rutinaBO = new RutinaBO();
         if (usuarioConsultadoDTO!= null) {
             DiaBO diasBO = new DiaBO();
             List<DiaDTO> dias = diasBO.obtenerDias();
@@ -217,7 +222,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
 
                 DiaDTO diaNuevo = new DiaDTO(Long.parseLong(String.valueOf(currentIndex)),dia.nombre());
                 RutinaDTO rutinaDTO = new RutinaDTO(-1L,null,usuarioConsultadoDTO,diaNuevo);
-                rutinaBO.crearRutina(rutinaDTO);
+                crearRutina.crearRutina(rutinaDTO);
                 }); 
 
 
