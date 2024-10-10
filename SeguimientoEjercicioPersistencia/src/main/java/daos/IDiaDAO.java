@@ -17,4 +17,5 @@ public interface IDiaDAO {
     void seedDias();
     Dia getOrCreate(EntityManager em, DiaSemana diaSemana);
     List<Dia> lista();
+    boolean eliminar(Long id);
 }
