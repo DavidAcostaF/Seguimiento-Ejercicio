@@ -13,4 +13,5 @@ import dominio.Usuario;
 public interface IUsuarioDAO {
     public Usuario crear(Usuario usuario);
     public Usuario obtener(Usuario usuario);
+    public void borrar(Usuario usuario);
 }
