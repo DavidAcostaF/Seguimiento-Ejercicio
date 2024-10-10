@@ -15,5 +15,5 @@ public interface IRutinaDAO {
     public Rutina obtenerRutinaUsuarioDia(Usuario usuario, int dia);
     
     public List<Rutina> obtenerRutinas(Usuario usuario);
-    
+    boolean eliminar(Long idRutina);
 }

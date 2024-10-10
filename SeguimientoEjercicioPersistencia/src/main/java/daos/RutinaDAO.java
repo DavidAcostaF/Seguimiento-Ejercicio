@@ -10,14 +10,14 @@ import javax.persistence.EntityManager;
  *
  * @author alex_
  */
-public class RutinaDAO implements IRutinaDAO{
+public class RutinaDAO implements IRutinaDAO {
 
     private IConexion conexion;
 
     public RutinaDAO() {
         this.conexion = new Conexion();
     }
-    
+
     @Override
     public Rutina crearRutina(Rutina rutina) {
         EntityManager entityManager = conexion.obtenerConexion();
@@ -27,7 +27,7 @@ public class RutinaDAO implements IRutinaDAO{
         entityManager.refresh(rutina);
         entityManager.clear();
         entityManager.close();
-        
+
         return rutina;
 
     }
@@ -75,12 +75,37 @@ public class RutinaDAO implements IRutinaDAO{
                 }
             }
 
-            entityManager.clear(); 
+            entityManager.clear();
         } finally {
-            entityManager.close(); 
+            entityManager.close();
         }
 
         return rutinaEncontradas;
     }
 
+    @Override
+    public boolean eliminar(Long idRutina) {
+        EntityManager entityManager = conexion.obtenerConexion();
+        boolean eliminado = false;
+
+        try {
+            entityManager.getTransaction().begin();
+            Rutina rutina = entityManager.find(Rutina.class, idRutina);
+            if (rutina != null) {
+                entityManager.remove(rutina);
+                eliminado = true; // Marcar como eliminado
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback(); // Hacer rollback en caso de error
+            }
+            e.printStackTrace(); // Manejar la excepción según tu estrategia
+        } finally {
+            entityManager.clear();
+            entityManager.close();
+        }
+
+        return eliminado;
+    }
 }
