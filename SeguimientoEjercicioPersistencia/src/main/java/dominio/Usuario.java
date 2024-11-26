@@ -99,6 +99,11 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
     }
 
+    public Usuario(Long id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
     // Getters y setters
 
     public Long getId() {
