@@ -16,7 +16,8 @@ public class EjercicioNegocio {
     // Método para crear un nuevo ejercicio
     public Ejercicio crearEjercicio(Long id, String nombre, String tipo, float duracion) {
         Ejercicio ejercicio = new Ejercicio(id,nombre, tipo, duracion);
-        return ejercicioRepository.save(ejercicio);
+        Ejercicio ejercicioCreado = ejercicioRepository.save(ejercicio);
+        return ejercicioCreado;
     }
 
     // Método para obtener todos los ejercicios

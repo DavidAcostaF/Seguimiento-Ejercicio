@@ -47,7 +47,6 @@ public class Ejercicio implements Serializable {
         this.duracion = duracion;
     }
 
-    // Getters y setters
     public Long getId() {
         return id;
     }

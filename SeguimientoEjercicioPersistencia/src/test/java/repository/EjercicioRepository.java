@@ -10,7 +10,7 @@ public class EjercicioRepository {
     private List<Ejercicio> ejercicios = new ArrayList<>();  // Simulamos una base de datos en memoria
 
     // Método para guardar un nuevo ejercicio
-    public Ejercicio save(Ejercicio ejercicio) {
+        public Ejercicio save(Ejercicio ejercicio) {
         if (ejercicio.getId() == null) {
             // Asignamos un ID automáticamente si es nuevo
             ejercicio.setId((long) (ejercicios.size() + 1));
