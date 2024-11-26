@@ -3,6 +3,7 @@ package tests;
 import dominio.Usuario;
 import daos.UsuarioDAO;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -12,6 +13,8 @@ public class UsuarioTests {
 
     @Test
     public void testCrearUsuario() {
+        System.out.println("Ejecutando test: testCrearUsuario");
+
         // Inicializa UsuarioDAO
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
@@ -36,6 +39,8 @@ public class UsuarioTests {
 
     @Test
     public void testObtenerUsuario() {
+        System.out.println("Ejecutando test: testObtenerUsuario");
+
         // Inicializa UsuarioDAO
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
@@ -61,6 +66,8 @@ public class UsuarioTests {
 
     @Test
     public void testBorrarUsuario() {
+        System.out.println("Ejecutando test: testBorrarUsuario");
+
         // Inicializa UsuarioDAO
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 

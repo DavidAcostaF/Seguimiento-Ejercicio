@@ -50,6 +50,8 @@ public class EjercicioDiarioTests {
 
     @Test
     public void testCrearEjercicioDiario() {
+        System.out.println("Test ejercicio diario: CrearEjercicioDiario");
+
         // Inicializar Usuario
         usuario = crearUsuario("Test User", "test"); // Cambiar el nombre de usuario para evitar duplicados
 
@@ -87,6 +89,8 @@ public class EjercicioDiarioTests {
 
     @Test
     public void testActualizarEjercicioDiario() {
+        System.out.println("Test ejercicio diario: ActualizarEjercicioDiario");
+
         usuario = crearUsuario("Test User", "test2"); // Cambiar el nombre de usuario
 
         // Inicializar Día
@@ -127,6 +131,8 @@ public class EjercicioDiarioTests {
 
     @Test
     public void testEliminarEjercicioDiario() {
+        System.out.println("Test ejercicio diario: EliminarEjercicioDiario");
+
         usuario = crearUsuario("Test User", "test3"); // Cambiar el nombre de usuario
 
         // Inicializar Día
@@ -165,6 +171,7 @@ public class EjercicioDiarioTests {
 
     @Test
     public void testObtenerEjercicioDiario() {
+        System.out.println("Test ejercicio diario: ObtenerEjercicioDiario");
         usuario = crearUsuario("Test User", "test4"); // Cambiar el nombre de usuario
 
         // Inicializar Día
@@ -195,7 +202,7 @@ public class EjercicioDiarioTests {
         EjercicioDiario creado = ejercicioDiarioDAO.crear(ejercicioDiario);
 
         // Obtener EjercicioDiario
-        EjercicioDiario obtenido = ejercicioDiarioDAO.obtener(creado,DiaSemana.LUNES.toString());
+        EjercicioDiario obtenido = ejercicioDiarioDAO.obtener(creado, DiaSemana.LUNES.toString());
 
         // Verificar que se haya obtenido correctamente
         assertNotNull(obtenido);

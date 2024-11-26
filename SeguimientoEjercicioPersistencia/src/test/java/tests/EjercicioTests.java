@@ -10,6 +10,8 @@ public class EjercicioTests {
 
     @Test
     public void testCrearEjercicio() {
+        System.out.println("Ejecutando test: testCrearEjercicio");
+
         IEjercicioDAO ejercicioDAO = new EjercicioDAO(); // Inicializa dentro del test
 
         Ejercicio ejercicio = new Ejercicio();
@@ -26,6 +28,8 @@ public class EjercicioTests {
 
     @Test
     public void testObtenerEjercicioNombre() {
+        System.out.println("Ejecutando test: testObtenerEjercicioNombre");
+
         IEjercicioDAO ejercicioDAO = new EjercicioDAO(); // Inicializa dentro del test
 
         // Suponiendo que ya existe un ejercicio con el nombre "Correr"
@@ -36,6 +40,8 @@ public class EjercicioTests {
 
     @Test
     public void testModificarEjercicio() {
+        System.out.println("Ejecutando test: testModificarEjercicio");
+
         IEjercicioDAO ejercicioDAO = new EjercicioDAO(); // Inicializa dentro del test
 
         // Crear un nuevo ejercicio
@@ -71,6 +77,8 @@ public class EjercicioTests {
 
     @Test
     public void testEliminarEjercicio() {
+        System.out.println("Ejecutando test: testEliminarEjercicio");
+
         IEjercicioDAO ejercicioDAO = new EjercicioDAO(); // Inicializa dentro del test
 
         // Crear un nuevo ejercicio
