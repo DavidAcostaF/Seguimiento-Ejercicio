@@ -13,4 +13,5 @@ import dtos.UsuarioDTO;
 public interface IUsuarioBO {
     UsuarioDTO crearUsuario(UsuarioDTO usuario);
     UsuarioDTO loginUsuario(UsuarioDTO usuario);
+    boolean verificarUsuarioExistente(String nombreUusuario);
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package presentacion;
 
 import crearEjercicio.FCrearEjercicio;
@@ -12,19 +8,14 @@ import dtos.EjercicioDTO;
 import dtos.EjercicioDiarioDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import extras.ValidadoresPresentacion;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 import negocio.DiaBO;
-import negocio.EjercicioBO;
-import negocio.EjercicioDiarioBO;
 import negocio.IDiaBO;
-import negocio.IEjercicioBO;
-import negocio.IEjercicioDiarioBO;
-import negocio.IRutinaBO;
-import negocio.RutinaBO;
 import obtenerRutinas.FObtenerRutinas;
 import obtenerRutinas.IObtenerRutinas;
-import obtenerUsuarios.IObtenerUsuarios;
 
 /**
  *
@@ -37,6 +28,8 @@ public class RegistroEjercicio extends javax.swing.JFrame {
     private IDiaBO diaBO;
     private UsuarioDTO usuario = SeguimientoEjercicioPresentacion.USUARIO;
     private Observable observable;
+    private List<EjercicioDTO> ejerciciosExistentes;
+    
 
     /**
      * Creates new form RegistroEjercicio
@@ -48,6 +41,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         diaBO = new DiaBO();
         crearEjercicioDiario = new FCrearEjercicioDiario();
         this.observable = SeguimientoEjercicioPresentacion.OBSERVABLE;
+        obtenerEjercicios();
     }
 
     /**
@@ -77,6 +71,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -94,7 +89,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 240, -1));
         getContentPane().add(txtTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 240, -1));
-        getContentPane().add(txtDuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 240, -1));
+        getContentPane().add(txtDuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 100, -1));
 
         checkLunes.setText("Lunes");
         getContentPane().add(checkLunes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
@@ -154,6 +149,9 @@ public class RegistroEjercicio extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 40, 360));
 
+        jLabel6.setText("Minutos");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 50, 20));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -162,73 +160,103 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkDomingoActionPerformed
 
+    private void obtenerEjercicios() {
+        List<RutinaDTO> rutinas = obtenerRutinas.obtenerRutinas(usuario);
+        ejerciciosExistentes = new ArrayList<>();
+
+        for (RutinaDTO r : rutinas) {
+            for (EjercicioDiarioDTO e : r.ejerciciosDiarios()) {
+                EjercicioDTO ejercicioEncontrado = e.ejercicio();
+                // Verificar si el ejercicio ya existe en la lista
+                if (!ejerciciosExistentes.contains(ejercicioEncontrado)) {
+                    ejerciciosExistentes.add(ejercicioEncontrado);
+                }
+            }
+        }
+    }
+    
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        EjercicioDTO ejercicioCreado = this.crearEjercicio();
-        
-        boolean lunesSeleccionado = checkLunes.isSelected();
-        boolean martesSeleccionado = checkMartes.isSelected();
-        boolean miercolesSeleccionado = checkMiercoles.isSelected();
-        boolean juevesSeleccionado = checkJueves.isSelected();
-        boolean viernesSeleccionado = checkViernes.isSelected();
-        boolean sabadoSeleccionado = checkSabado.isSelected();
-        boolean domingoSeleccionado = checkDomingo.isSelected();
-        
-        System.out.println(ejercicioCreado);
-        
-        // Lunes
-        if (checkLunes.isSelected()) {
-            RutinaDTO rutinaDtoLunes = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Lunes"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoLunes);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
+        boolean lunes = checkLunes.isSelected();
+        boolean martes = checkMartes.isSelected();
+        boolean miercoles = checkMiercoles.isSelected();
+        boolean jueves = checkJueves.isSelected();
+        boolean viernes = checkViernes.isSelected();
+        boolean sabado = checkSabado.isSelected();
+        boolean domingo = checkDomingo.isSelected();
 
-        // Martes
-        if (checkMartes.isSelected()) {
-            RutinaDTO rutinaDtoMartes = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Martes"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoMartes);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
+        List<Boolean> checks = new ArrayList<>();
+        checks.add(lunes);
+        checks.add(martes);
+        checks.add(miercoles);
+        checks.add(jueves);
+        checks.add(viernes);
+        checks.add(sabado);
+        checks.add(domingo);
 
-        // Miércoles
-        if (checkMiercoles.isSelected()) {
-            RutinaDTO rutinaDtoMiercoles = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Miércoles"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoMiercoles);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
+        if (validarCrearEjercicio() && validarDiaSeleccionado(checks)) {
+            if (verificarSiEjercicioYaExistia(txtNombre.getText())) {
+                EjercicioDTO ejercicioCreado = this.crearEjercicio();
 
-        // Jueves
-        if (checkJueves.isSelected()) {
-            RutinaDTO rutinaDtoJueves = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Jueves"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoJueves);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
+                System.out.println(ejercicioCreado);
 
-        // Viernes
-        if (checkViernes.isSelected()) {
-            RutinaDTO rutinaDtoViernes = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Viernes"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoViernes);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
+                // Lunes
+                if (checkLunes.isSelected()) {
+                    RutinaDTO rutinaDtoLunes = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Lunes"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoLunes);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
 
-        // Sábado
-        if (checkSabado.isSelected()) {
-            RutinaDTO rutinaDtoSabado = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Sábado"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoSabado);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
+                // Martes
+                if (checkMartes.isSelected()) {
+                    RutinaDTO rutinaDtoMartes = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Martes"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoMartes);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
 
-        // Domingo
-        if (checkDomingo.isSelected()) {
-            RutinaDTO rutinaDtoDomingo = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Domingo"));
-            EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoDomingo);
-            crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
-        }
-        
-        // Cerrar la ventana actual y abrir el Menu
-        Menu menu = new Menu();
+                // Miércoles
+                if (checkMiercoles.isSelected()) {
+                    RutinaDTO rutinaDtoMiercoles = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Miércoles"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoMiercoles);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
+
+                // Jueves
+                if (checkJueves.isSelected()) {
+                    RutinaDTO rutinaDtoJueves = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Jueves"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoJueves);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
+
+                // Viernes
+                if (checkViernes.isSelected()) {
+                    RutinaDTO rutinaDtoViernes = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Viernes"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoViernes);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
+
+                // Sábado
+                if (checkSabado.isSelected()) {
+                    RutinaDTO rutinaDtoSabado = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Sábado"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoSabado);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
+
+                // Domingo
+                if (checkDomingo.isSelected()) {
+                    RutinaDTO rutinaDtoDomingo = obtenerRutinas.obtenerRutina(usuario, diaBO.obtenerNumeroDia("Domingo"));
+                    EjercicioDiarioDTO ejercicioDiarioDTO = new EjercicioDiarioDTO(-1L, ejercicioCreado, false, rutinaDtoDomingo);
+                    crearEjercicioDiario.crearEjercicioDiario(ejercicioDiarioDTO);
+                }
+
+                // Cerrar la ventana actual y abrir el Menu
+                Menu menu = new Menu();
 //        observable.notifyObservers();
-        menu.setVisible(true);
-        this.dispose();
+                menu.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ya existe un ejercicio con ese nombre");
+            }
+        }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -238,12 +266,64 @@ public class RegistroEjercicio extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
     
-    private EjercicioDTO crearEjercicio(){
+    private EjercicioDTO crearEjercicio() {
         String nombre = txtNombre.getText();
         String tipo = txtTipo.getText();
         String duracion = txtDuracion.getText();
         EjercicioDTO ejercicioDTO = new EjercicioDTO(-1L, nombre, tipo, Float.parseFloat(duracion));
         return crearEjercicio.crearEjercicio(ejercicioDTO);
+    }
+    
+    private boolean validarCrearEjercicio() {
+        if (!txtNombre.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esSoloTexto(txtNombre.getText())) {
+                JOptionPane.showMessageDialog(this, "El nombre del ejercicio solo puede ser letras y contener '()'");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El nombre del ejercicio no puede estar vacio");
+            return false;
+        }
+        if (!txtTipo.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esSoloTexto(txtTipo.getText())) {
+                JOptionPane.showMessageDialog(this, "El tipo del ejercicio solo puede ser letras y contener '()'");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El tipo del ejercicio no puede estar vacio");
+            return false;
+        }
+        if (!txtDuracion.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esNumeroEntero(txtDuracion.getText())) {
+                JOptionPane.showMessageDialog(this, "La duracion del ejercicio solo puede ser numeros enteros");
+                return false;
+            }
+        } else {
+                JOptionPane.showMessageDialog(this, "La duracion del ejercicio no puede estar vacio");
+            return false;
+        }
+
+        return true;
+    }
+    
+    private boolean validarDiaSeleccionado(List<Boolean> checks){
+        for (Boolean check : checks) {
+            if (check) {
+                return true;
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un dia");
+        return false;
+    }
+    
+    private boolean verificarSiEjercicioYaExistia(String nombre){
+        for (EjercicioDTO ejerciciosExistente : ejerciciosExistentes) {
+            if (ejerciciosExistente.nombre().equalsIgnoreCase(nombre)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -261,6 +341,7 @@ public class RegistroEjercicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtDuracion;
     private javax.swing.JTextField txtNombre;

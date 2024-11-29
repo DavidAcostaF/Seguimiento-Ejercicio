@@ -30,5 +30,10 @@ public class UsuariosBO implements IUsuarioBO{
     public UsuarioDTO loginUsuario(UsuarioDTO usuario) {
         return conversor.EntidadADTO(usuarioDAO.obtener(conversor.DTOAEntidad(usuario)));
     }
+
+    @Override
+    public boolean verificarUsuarioExistente(String nombreUusuario) {
+        return usuarioDAO.obtenerNombre(nombreUusuario) != null;
+    }
     
 }

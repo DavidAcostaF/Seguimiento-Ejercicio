@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package presentacion;
 
 import crearRutina.FCrearRutina;
@@ -9,12 +5,14 @@ import crearRutina.ICrearRutina;
 import dtos.DiaDTO;
 import dtos.RutinaDTO;
 import dtos.UsuarioDTO;
+import extras.ValidadoresPresentacion;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 import negocio.DiaBO;
-import negocio.RutinaBO;
 import negocio.UsuariosBO;
+import obtenerUsuarios.FObtenerUsuarios;
+import obtenerUsuarios.IObtenerUsuarios;
 import registrarUsuario.FRegistrarUsuario;
 import registrarUsuario.IRegistrarUsuario;
 
@@ -26,6 +24,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
 
     private IRegistrarUsuario registroUsuario;
     private ICrearRutina crearRutina;
+    private IObtenerUsuarios obtenerUsuario;
 
     /**
      * Creates new form dlg_RegistroUsuario
@@ -34,6 +33,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         initComponents();
         registroUsuario = new FRegistrarUsuario();
         crearRutina = new FCrearRutina();
+        obtenerUsuario = new FObtenerUsuarios();
 
     }
 
@@ -63,6 +63,9 @@ public class RegistroUsuario extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,16 +99,16 @@ public class RegistroUsuario extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("Kg");
+
+        jLabel10.setText("Metros");
+
+        jLabel11.setText("Años");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(btnCancelar)
-                .addGap(71, 71, 71)
-                .addComponent(btnAceptar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,8 +147,23 @@ public class RegistroUsuario extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtContra2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)))))
-                        .addGap(20, 20, 20))))
+                                        .addComponent(txtContra2, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(22, 22, 22))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(119, 119, 119)
+                .addComponent(btnCancelar)
+                .addGap(71, 71, 71)
+                .addComponent(btnAceptar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,15 +181,18 @@ public class RegistroUsuario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtEstatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEstatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtcontra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,11 +201,11 @@ public class RegistroUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtContra2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnAceptar))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -192,55 +213,139 @@ public class RegistroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        LoginUsuario login = new LoginUsuario();
+        login.setVisible(true);
+        this.dispose();
+                
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        String nombre = txtNombre.getText();
-        String usuario = txtUsuario.getText();
-        String edad = txtEdad.getText();
-        String peso = txtPeso.getText();
-        String estatura = txtEstatura.getText();
-        char[] contrasenia = txtcontra1.getPassword();
-        UsuarioDTO usuarioDTO = new UsuarioDTO(null, nombre, usuario, String.valueOf(contrasenia), Integer.parseInt(edad), Float.parseFloat(peso), Float.parseFloat(estatura));
-        UsuarioDTO usuarioCreado = registroUsuario.registrarUsuario(usuarioDTO);
-        
-        
-        if (usuarioCreado==null){
-            JOptionPane.showMessageDialog(this, "No se ha podido crear el usuario");
-        }
-        
-        UsuariosBO usuarioBO = new UsuariosBO();
-        UsuarioDTO usuarioConsultadoDTO = usuarioBO.loginUsuario(usuarioDTO);
-        if (usuarioConsultadoDTO!= null) {
-            DiaBO diasBO = new DiaBO();
-            List<DiaDTO> dias = diasBO.obtenerDias();
-            AtomicInteger index = new AtomicInteger(); 
+        if (validarCampos()) {
+            String nombre = txtNombre.getText();
+            String usuario = txtUsuario.getText();
+            String edad = txtEdad.getText();
+            String peso = txtPeso.getText();
+            String estatura = txtEstatura.getText();
+            char[] contrasenia = txtcontra1.getPassword();
+            UsuarioDTO usuarioDTO = new UsuarioDTO(null, nombre, usuario, String.valueOf(contrasenia), Integer.parseInt(edad), Float.parseFloat(peso), Float.parseFloat(estatura));
+            UsuarioDTO usuarioCreado = registroUsuario.registrarUsuario(usuarioDTO);
 
-            dias.forEach(dia -> {
-                int currentIndex = index.getAndIncrement()+1;
+            if (usuarioCreado == null) {
+                JOptionPane.showMessageDialog(this, "No se ha podido crear el usuario");
+            }
 
-                DiaDTO diaNuevo = new DiaDTO(Long.parseLong(String.valueOf(currentIndex)),dia.nombre());
-                RutinaDTO rutinaDTO = new RutinaDTO(-1L,null,usuarioConsultadoDTO,diaNuevo);
-                crearRutina.crearRutina(rutinaDTO);
-                }); 
+            UsuariosBO usuarioBO = new UsuariosBO();
+            UsuarioDTO usuarioConsultadoDTO = usuarioBO.loginUsuario(usuarioDTO);
+            if (usuarioConsultadoDTO != null) {
+                DiaBO diasBO = new DiaBO();
+                List<DiaDTO> dias = diasBO.obtenerDias();
+                AtomicInteger index = new AtomicInteger();
 
+                dias.forEach(dia -> {
+                    int currentIndex = index.getAndIncrement() + 1;
 
-            System.out.println("Rutina creada con éxito.");
-            SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultadoDTO;
-            Menu menu = new Menu();
-            menu.setVisible(true);
-            this.dispose();
-        } else {
-            System.out.println("Error en el inicio de sesión.");
+                    DiaDTO diaNuevo = new DiaDTO(Long.parseLong(String.valueOf(currentIndex)), dia.nombre());
+                    RutinaDTO rutinaDTO = new RutinaDTO(-1L, null, usuarioConsultadoDTO, diaNuevo);
+                    crearRutina.crearRutina(rutinaDTO);
+                });
+
+                System.out.println("Rutina creada con éxito.");
+                SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultadoDTO;
+                Menu menu = new Menu();
+                menu.setVisible(true);
+                this.dispose();
+            } else {
+                System.out.println("Error en el inicio de sesión.");
+            }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    private boolean validarCampos(){
+        // Nombre
+        if (!txtNombre.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esSoloTexto(txtNombre.getText())) {
+                JOptionPane.showMessageDialog(this, "El nombre solo puede ser letras");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El nombre no puede estar vacio");
+            return false;
+        }
+        // Usuario
+        if (!txtUsuario.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esSoloTexto(txtUsuario.getText())) {
+                JOptionPane.showMessageDialog(this, "El usuario solo puede ser letras");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El usuario no puede estar vacio");
+            return false;
+        }
+        // verificar si ya existe el usuario
+        if (obtenerUsuario.verificarUsuario(txtUsuario.getText())) {
+            JOptionPane.showMessageDialog(this, "El nombre de usuario ya se encuentra registrado");
+            return false;
+        }
+        // Edad
+        if (!txtEdad.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esNumeroEntero(txtEdad.getText())) {
+                JOptionPane.showMessageDialog(this, "La edad solo puede ser numeros");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La edad no puede estar vacia");
+            return false;
+        }
+        // Peso
+        if (!txtPeso.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esNumeroDecimal(txtPeso.getText())) {
+                JOptionPane.showMessageDialog(this, "El peso solo puede ser numeros y hasta 2 decimales");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El peso no puede estar vacia");
+            return false;
+        }
+        // Estatura
+        if (!txtEstatura.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esNumeroDecimal(txtEstatura.getText())) {
+                JOptionPane.showMessageDialog(this, "La estatura solo puede ser numeros y hasta 2 decimales");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La estatura no puede estar vacia");
+            return false;
+        }
+        // Contraseña
+        if (!txtcontra1.getText().isBlank()) {
+            if (!ValidadoresPresentacion.esContrasenaValida(txtcontra1.getText())) {
+                JOptionPane.showMessageDialog(this, "La contraseña debe tener por lo menos 8 caracteres, de los cuales tiene por lo menos un caracter especial '*¡?()!_-', una mayuscula, una minuscula y un numero");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La contraseña no puede estar vacia");
+            return false;
+        }
+        // Contraseña 2
+        if (!txtContra2.getText().isBlank()) {
+            if (!txtContra2.getText().equals(txtcontra1.getText())) {
+                JOptionPane.showMessageDialog(this, "Las contraseñas deben coincidir");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe repetir la contraseña");
+            return false;
+        }
+        
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -248,6 +353,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPasswordField txtContra2;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtEstatura;

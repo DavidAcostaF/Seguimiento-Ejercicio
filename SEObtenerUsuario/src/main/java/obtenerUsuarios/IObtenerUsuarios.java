@@ -9,5 +9,6 @@ import dtos.UsuarioDTO;
 public interface IObtenerUsuarios {
     
     public UsuarioDTO obtenerUsuario(UsuarioDTO usuario);
+    public boolean verificarUsuario(String nombreUsuario);
     
 }

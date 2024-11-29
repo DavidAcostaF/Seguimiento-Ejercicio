@@ -22,5 +22,10 @@ public class FObtenerUsuarios implements IObtenerUsuarios{
     public UsuarioDTO obtenerUsuario(UsuarioDTO usuario) {
         return control.obtenerUsuario(usuario);
     }
+
+    @Override
+    public boolean verificarUsuario(String nombreUsuario) {
+        return control.verificarUsuarioExistente(nombreUsuario);
+    }
     
 }

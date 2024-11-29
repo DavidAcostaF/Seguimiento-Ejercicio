@@ -84,19 +84,38 @@ public class LoginUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String usuario = txtUsuario.getText();
-        String contra = String.valueOf(txtContra.getPassword());
-        UsuarioDTO usuarioDTO = new UsuarioDTO(null, "", usuario, contra, 0, 0f, 0f);
-        UsuarioDTO usuarioConsultado = this.obtenerUsuario.obtenerUsuario(usuarioDTO);
-        if (usuarioConsultado == null) {
-            JOptionPane.showConfirmDialog(this, "No se encontró");
+        if (ValidarInicio()) {
+            Menu menu = new Menu();
+            menu.setVisible(true);
+            this.dispose();
         }
-        SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultado;
-        Menu menu = new Menu();
-        menu.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
+    private boolean ValidarInicio() {
+        if (!this.txtUsuario.getText().isBlank()) {
+            if (!this.txtContra.getText().isBlank()) {
+                String usuario = txtUsuario.getText();
+                String contra = String.valueOf(txtContra.getPassword());
+                UsuarioDTO usuarioDTO = new UsuarioDTO(null, "", usuario, contra, 0, 0f, 0f);
+                UsuarioDTO usuarioConsultado = this.obtenerUsuario.obtenerUsuario(usuarioDTO);
+                if (usuarioConsultado == null) {
+                    JOptionPane.showMessageDialog(this, "No se encontro el usuario");
+                } else {
+                    SeguimientoEjercicioPresentacion.USUARIO = usuarioConsultado;
+                    return true;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Llenar el campo de contraseña");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Llenar el campo de usuario");
+            return false;
+        }
+        
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;

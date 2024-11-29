@@ -20,4 +20,8 @@ public class CObtenerUsuarios {
         return usuarioBO.loginUsuario(usuario);
     }
     
+    protected boolean verificarUsuarioExistente(String nombreUsuario){
+        return usuarioBO.verificarUsuarioExistente(nombreUsuario);
+    }
+    
 }

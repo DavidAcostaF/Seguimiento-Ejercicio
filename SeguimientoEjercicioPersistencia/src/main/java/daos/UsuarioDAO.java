@@ -3,6 +3,7 @@ package daos;
 import dominio.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -31,17 +32,16 @@ public class UsuarioDAO implements IUsuarioDAO {
     public Usuario obtener(Usuario usuario) {
         EntityManager entityManager = conexion.obtenerConexion();
 
-        List<Usuario> resultados = entityManager.createQuery(
-                "SELECT u FROM Usuario u WHERE u.nomUsuario = :nom_usuario AND u.contrasenia = :contrasenia", Usuario.class)
-                .setParameter("nom_usuario", usuario.getNomUsuario())
-                .setParameter("contrasenia", usuario.getContrasenia())
-                .getResultList();
-
-        if (resultados.isEmpty()) {
-            return null; // No se encontró el usuario
+        try {
+            return entityManager.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.nomUsuario = :nom_usuario AND u.contrasenia = :contrasenia", Usuario.class)
+                    .setParameter("nom_usuario", usuario.getNomUsuario())
+                    .setParameter("contrasenia", usuario.getContrasenia())
+                    .getSingleResult();
+            
+        } catch (NoResultException e) {
+            return null; // Retorna null si no se encontró ningún resultado
         }
-
-        return resultados.get(0); // Retorna el primer usuario encontrado
     }
 
     @Override
@@ -56,5 +56,19 @@ public class UsuarioDAO implements IUsuarioDAO {
 
         entityManager.getTransaction().commit();
         entityManager.close();
+    }
+
+    @Override
+    public Usuario obtenerNombre(String nombreUsuario) {
+        EntityManager entityManager = conexion.obtenerConexion();
+
+        try {
+            return entityManager.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.nomUsuario = :nom_usuario", Usuario.class)
+                    .setParameter("nom_usuario", nombreUsuario)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Retorna null si no se encontró ningún resultado
+        }
     }
 }
