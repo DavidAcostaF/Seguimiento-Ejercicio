@@ -43,8 +43,9 @@ public class EstadisticaSemanal extends javax.swing.JFrame {
         this.usuario = obtenerUsuario.obtenerUsuario(SeguimientoEjercicioPresentacion.USUARIO);
         this.rutinas = obtenerRutinas.obtenerRutinas(usuario);
         modeloTablaResumen = new DefaultTableModel(new String[]{"Día", "Ejercicios Completos", "Ejercicios Pendientes", "Total Ejercicios", "Porcentaje"}, 0);
-        tblResumen.setModel(modeloTablaResumen);
         llenarTablaResumen();
+        tblResumen.setModel(modeloTablaResumen);
+        
     }
 
     public void llenarTablaResumen() {

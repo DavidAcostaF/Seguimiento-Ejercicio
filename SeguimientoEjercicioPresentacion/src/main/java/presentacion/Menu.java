@@ -85,6 +85,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
         txtNombreUsuario = new javax.swing.JTextField();
         btnEstadistica = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnRanking = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -120,7 +121,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
                 btnAgregarEjercicioActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 129, -1));
+        getContentPane().add(btnAgregarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 129, -1));
 
         btnModificarEjercicio.setText("Modificar Ejercicio");
         btnModificarEjercicio.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +129,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
                 btnModificarEjercicioActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModificarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+        getContentPane().add(btnModificarEjercicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
         tablaEjercicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -161,9 +162,9 @@ public class Menu extends javax.swing.JFrame implements Observador {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 425, 288));
 
         jLabel1.setText("Filtrar por dia");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
 
-        getContentPane().add(cbxFiltroDias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 129, -1));
+        getContentPane().add(cbxFiltroDias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 129, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -195,7 +196,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
                 btnEstadisticaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEstadistica, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 130, 20));
+        getContentPane().add(btnEstadistica, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 130, 20));
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +204,15 @@ public class Menu extends javax.swing.JFrame implements Observador {
                 btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 130, -1));
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 130, -1));
+
+        btnRanking.setText("Ranking");
+        btnRanking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRankingActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRanking, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 130, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -327,6 +336,12 @@ public class Menu extends javax.swing.JFrame implements Observador {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnRankingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRankingActionPerformed
+        RankingUsuarios ranking = new RankingUsuarios();
+        ranking.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRankingActionPerformed
+
     public List<RutinaDTO> getRutinas() {
         return rutinas;
     }
@@ -340,6 +355,7 @@ public class Menu extends javax.swing.JFrame implements Observador {
     private javax.swing.JButton btnAgregarEjercicio;
     private javax.swing.JButton btnEstadistica;
     private javax.swing.JButton btnModificarEjercicio;
+    private javax.swing.JButton btnRanking;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbxFiltroDias;
     private javax.swing.JLabel jLabel1;
